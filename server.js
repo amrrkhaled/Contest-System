@@ -12,7 +12,9 @@ const authRoutes = require('./routes/auth.routes');
 // const contestRoutes = require('./routes/contest.routes');
 // const problemRoutes = require('./routes/problem.routes');
 const submissionRoutes = require('./routes/submission.routes');
+const leaderboardRoutes = require('./routes/leaderboard.routes');
 
+app.use('/api/leaderboard', leaderboardRoutes);
 // Use routes
 app.use('/api/auth', authRoutes);
 // app.use('/api/contests', contestRoutes);
