@@ -2,11 +2,9 @@ const axios = require('axios');
 const db = require('../config/db');
 require('dotenv').config();
 
-const JUDGE0_URL = 'https://judge0-ce.p.rapidapi.com/submissions';
+const JUDGE0_URL = 'http://localhost:2358/submissions';
 const JUDGE0_HEADERS = {
   'Content-Type': 'application/json',
-  'X-RapidAPI-Key': process.env.JUDGE0_API_KEY,
-  'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
 };
 
 // Local language_id → Judge0 language_id
