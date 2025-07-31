@@ -37,7 +37,7 @@ export const Leaderboard = () => {
       </div>
 
       <div className="leaderboard-header">
-        <h1>🏆 Contest #{contestId} – Live Standings</h1>
+        <h1>🏆 Contest #1 {leaderboard.map((team ) => team.team_name).join(', ') } – Live Standings</h1>
         <p>See who's leading the challenge!</p>
       </div>
 

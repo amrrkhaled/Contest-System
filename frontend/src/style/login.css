@@ -1,0 +1,125 @@
+:root {
+  --color-dark-blue: #0F044C;
+  --color-mid-blue: #141E61;
+  --color-gray-blue: #787A91;
+  --color-light: #EEEEEE;
+  --color-accent: #4682A9;
+  --color-background: #F6F4EB;
+  --color-error: #ff4d4f;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-background);
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(145deg, var(--color-light), var(--color-background));
+}
+
+.login-card {
+  background-color: white;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-branding {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.branding-main {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--color-dark-blue);
+  margin:0 ;
+}
+
+.branding-sub {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.login-card h2 {
+  color: var(--color-dark-blue);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-mid-blue);
+  margin-bottom: 0.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-gray-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(70, 130, 169, 0.2);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: var(--color-mid-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--color-dark-blue);
+}
+
+.error-message {
+  color: var(--color-error);
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-gray-blue);
+}
+
+.login-footer a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
