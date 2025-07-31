@@ -30,18 +30,29 @@ body {
   color: var(--color-light);
 }
 
-.leaderboard-watermark {
+.leaderboard-watermark-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.leaderboard-watermark {
   font-size: 140px;
   font-weight: bold;
   color: var(--color-light-transparent-weak);
-  z-index: 0;
   white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
+}
+
+.leaderboard-subtext {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-light-transparent-weak);
+  margin-top: -10px;
 }
 
 .leaderboard-header {
@@ -71,6 +82,8 @@ body {
   background-color: #ffffff10;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px); /* Safari support */
+  position: relative;
+  z-index: 1;
 }
 
 .leaderboard-table thead tr {
