@@ -1,0 +1,119 @@
+:root {
+  --color-dark-blue: #0F044C;
+  --color-mid-blue: #141E61;
+  --color-gray-blue: #787A91;
+  --color-light: #EEEEEE;
+  --color-light-transparent: #EEEEEE44;
+  --color-light-transparent-weak: #EEEEEE11;
+  --color-header-bg: #0F044Caa;
+  --color-row-even: #141E6155;
+  --color-row-odd: #787A9144;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-dark-blue);
+  color: var(--color-light);
+}
+
+.leaderboard-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--color-dark-blue), var(--color-mid-blue), var(--color-gray-blue));
+  color: var(--color-light);
+}
+
+.leaderboard-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 140px;
+  font-weight: bold;
+  color: var(--color-light-transparent-weak);
+  z-index: 0;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+.leaderboard-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.leaderboard-header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.leaderboard-header p {
+  color: #ccc;
+  font-size: 18px;
+}
+
+.leaderboard-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff10;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); /* Safari support */
+}
+
+.leaderboard-table thead tr {
+  background-color: var(--color-header-bg);
+  color: var(--color-light);
+}
+
+.table-head-cell {
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.table-cell {
+  padding: 12px;
+  font-size: 15px;
+}
+
+.table-row-even {
+  background-color: var(--color-row-even);
+}
+
+.table-row-odd {
+  background-color: var(--color-row-odd);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid var(--color-light-transparent);
+  border-top: 6px solid var(--color-light);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
