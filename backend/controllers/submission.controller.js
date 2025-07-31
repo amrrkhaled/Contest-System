@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const { judgeSubmission } = require('../judge/judgeSubmission');
 
-// ✅ Submit a new solution
+//  Submit a new solution
 exports.submit = async (req, res) => {
   const { problem_id, language_id, code } = req.body;
   const team_id = req.user.id; // From JWT token

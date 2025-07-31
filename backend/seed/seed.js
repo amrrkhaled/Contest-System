@@ -13,7 +13,7 @@ async function seed() {
     // 1. Insert Contest
     const contestRes = await client.query(
       `INSERT INTO contests (name, start_time, end_time, is_active)
-       VALUES ($1, $2, $3, $4) RETURNING id`,
+      VALUES ($1, $2, $3, $4) RETURNING id`,
       [
         'Alexstream Practice Contest',
         '2025-08-01 10:00:00',
