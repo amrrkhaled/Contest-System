@@ -23,13 +23,18 @@ export const Leaderboard = () => {
 
     fetchLeaderBoard();
 
-    const interval = setInterval(fetchLeaderBoard, 10000);
+    const interval = setInterval(fetchLeaderBoard, 10000); // every 10 sec
     return () => clearInterval(interval);
   }, [contestId]);
 
   return (
     <div className="leaderboard-container">
-      <div className="leaderboard-watermark">IEEE</div>
+      <div className="leaderboard-watermark-wrapper">
+        <div className="leaderboard-watermark">IEEE</div>
+        <div className="leaderboard-subtext">AlexSB</div>
+        <br />
+        <div className="leaderboard-subtext">ALEXTREME</div>
+      </div>
 
       <div className="leaderboard-header">
         <h1>🏆 Contest #{contestId} – Live Standings</h1>
