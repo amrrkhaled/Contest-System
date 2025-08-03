@@ -1,85 +1,100 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../style/SubmitProblem.css';
 
 export const SubmitProblem = () => {
+  const navigate = useNavigate();
+
   const [problemId, setProblemId] = useState('');
   const [languageId, setLanguageId] = useState('');
   const [code, setCode] = useState('');
   const [verdict, setVerdict] = useState('');
+  const [problems, setProblems] = useState([]);
+  const [languages, setLanguages] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [problems, setProblems] = useState([]);
+  const [success, setSuccess] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchProblems = async () => {
-  //     try {
-  //       const res = await axios.get('http://localhost:5000/api/problems');
-  //       setProblems(res.data);
-  //     } catch (err) {
-  //       console.error(' Failed to fetch problems:', err);
-  //       setError(' Could not load problems. Try again later.');
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchProblems = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/problems', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setProblems(res.data);
+      } catch (err) {
+        console.error('Error fetching problems:', err);
+        setError('Failed to fetch problems.');
+      }
+    };
 
-  //   fetchProblems();
-  //   document.getElementById("problemId")?.focus();
-  // }, []);
+    fetchProblems();
+  }, []);
+
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/languages');
+        setLanguages(res.data);
+      } catch (err) {
+        console.error('Error fetching languages:', err);
+        setError('Failed to fetch languages.');
+      }
+    };
+
+    fetchLanguages();
+  }, []);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target.result;
+      setCode(content); // if you want textarea to override, add a check for empty code
+    };
+
+    const allowedExtensions = ['py', 'cpp', 'java'];
+    const extension = file.name.split('.').pop().toLowerCase();
+
+    if (!allowedExtensions.includes(extension)) {
+      setError('Unsupported file type. Only .py, .cpp, .java are allowed.');
+      return;
+    }
+
+    reader.readAsText(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setVerdict('');
-
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      setError('❌ You must be logged in to submit.');
-      return;
-    }
-
-    if (!problemId || isNaN(parseInt(languageId))) {
-      setError('❌ Select a valid problem and language.');
-      return;
-    }
-
-    if (code.trim().length < 5) {
-      setError('❌ Code is too short. Please write a valid solution.');
-      return;
-    }
-
-    const submissionData = {
-      problem_id: parseInt(problemId),
-      language_id: parseInt(languageId),
-      code: code.trim(),
-    };
-
+    setError('');
+    setSuccess(false);
     setLoading(true);
+
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         'http://localhost:5000/api/submissions',
-        submissionData,
+        {
+          problem_id: problemId,
+          language_id: languageId,
+          code,
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
-
-      setVerdict(`✅ Submission Received - ID: ${response.data.submissionId}`);
-      setProblemId('');
-      setLanguageId('');
-      setCode('');
+      setVerdict(res.data.verdict);
+      setSuccess(true);
     } catch (err) {
-      console.error('❌ Submission error:', err?.response?.data || err.message);
-
-      if (err.response?.status === 400) {
-        setError(err.response.data?.error || "❌ Bad Request.");
-      } else if (err.response?.status === 401) {
-        setError("❌ Unauthorized: Please log in again.");
-      } else {
-        setError(`❌ Submission failed: ${err?.response?.data?.error || 'Unknown error'}`);
-      }
+      console.error('Submission error:', err.response || err.message || err);
+      setError(err.response?.data?.error || 'Submission failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -88,66 +103,79 @@ export const SubmitProblem = () => {
   return (
     <div className="submit-problem-container">
       <div className="branding-header">
-        <h2>IEEE AlexSB - <span style={{color: "#474e94ff"}}>Alextreme</span></h2>
+        <h2>IEEE AlexSB - <span style={{ color: "#474e94ff" }}>Alextreme</span></h2>
         <p>Submit Your Solution</p>
       </div>
 
       <form className="submit-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="problemId">Problem</label>
-          <select
-            id="problemId"
-            value={problemId}
-            onChange={(e) => setProblemId(e.target.value)}
-            required
-          >
-            <option value="">Select a problem</option>
+          <label>Select Problem:</label>
+          <select value={problemId} onChange={(e) => setProblemId(e.target.value)} required>
+            <option value="">Choose a problem</option>
             {problems.map((problem) => (
               <option key={problem.id} value={problem.id}>
-                {problem.title} (ID: {problem.id})
+                {problem.title}
               </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="languageId">Language</label>
-          <select
-            id="languageId"
-            value={languageId}
-            onChange={(e) => setLanguageId(e.target.value)}
-            required
-          >
-            <option value="">Select Language</option>
-            <option value="1">Python</option>
-            <option value="2">C++</option>
-            <option value="4">Java</option>
+          <label>Select Language:</label>
+          <select value={languageId} onChange={(e) => setLanguageId(e.target.value)} required>
+            <option value="">Choose a language</option>
+            {languages.map((lang) => (
+              <option key={lang.id} value={lang.id}>
+                {lang.name}
+              </option>
+            ))}
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="code">Your Code</label>
+          <label>Write Code:</label>
           <textarea
-            id="code"
-            rows="10"
-            placeholder="Write your solution here..."
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            rows="10"
+            placeholder="Write your code here..."
             required
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={!problemId || !languageId || !code.trim() || loading}
-        >
+        <div className="form-group file-upload">
+          <label htmlFor="file">Or Upload File:</label>
+          <input
+            id="file"
+            type="file"
+            accept=".py,.cpp,.java"
+            onChange={handleFileChange}
+          />
+        </div>
+
+        <button type="submit" disabled={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
 
-      {verdict && <div className="verdict-box success">{verdict}</div>}
-      {error && <div className="verdict-box error">{error}</div>}
+      {success && (
+        <div className="verdict-box success">
+          ✅ Submitted successfully!
+          {verdict && <p>Verdict: {verdict}</p>}
+          <button
+            className="go-submissions-btn"
+            onClick={() => navigate('/submissions/mine')}
+          >
+            Go to My Submissions
+          </button>
+        </div>
+      )}
+
+      {error && (
+        <div className="verdict-box error">
+          ❌ Error: {error}
+        </div>
+      )}
     </div>
   );
 };
-
