@@ -1,0 +1,70 @@
+.submissions-container {
+  background-color: var(--light);
+  color: var(--dark-blue);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(120, 122, 145, 0.3);
+  font-family: var(--font-main);
+  border: 1px solid var(--gray-blue);
+}
+
+.submissions-container h2 {
+  text-align: center;
+  color: var(--mid-blue);
+  margin-bottom: 1.5rem;
+}
+
+.submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.submissions-table thead {
+  background-color: var(--dark-blue);
+  color: var(--light);
+}
+
+.submissions-table th,
+.submissions-table td {
+  padding: 0.9rem;
+  text-align: center;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--gray-blue);
+}
+
+.submissions-table tr:nth-child(even) {
+  background-color: var(--light);
+}
+
+.submissions-table tr:nth-child(odd) {
+  background-color: var(--light-transparent);
+}
+
+.alert {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.alert-info {
+  background-color: var(--light-transparent);
+  color: var(--mid-blue);
+  border-left: 5px solid var(--gray-blue);
+}
+
+.alert-danger {
+  background-color: #ffe6e6;
+  color: red;
+  border-left: 5px solid red;
+}
+
+.alert-success {
+  background-color: #e6ffe6;
+  color: green;
+  border-left: 5px solid green;
+}
