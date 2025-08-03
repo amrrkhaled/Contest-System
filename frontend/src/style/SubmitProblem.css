@@ -1,0 +1,122 @@
+:root {
+  --dark-blue: #0F044C;
+  --mid-blue: #141E61;
+  --gray-blue: #787A91;
+  --light: #EEEEEE;
+  --light-transparent: #EEEEEE44;
+  --font-main: 'Segoe UI', sans-serif;
+}
+
+.submit-problem-container {
+  background: var(--light);
+  color: var(--dark-blue);
+  padding: 2rem;
+  max-width: 650px;
+  margin: 2rem auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(120, 122, 145, 0.3);
+  font-family: var(--font-main);
+  border: 1px solid var(--gray-blue);
+}
+
+.branding-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.branding-header h2 {
+  margin: 0;
+  color: var(--mid-blue);
+  font-size: 1.8rem;
+}
+
+.branding-header p {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: var(--gray-blue);
+}
+
+.submit-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.submit-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--mid-blue);
+}
+
+.submit-form input,
+.submit-form textarea,
+.submit-form select {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border: 1px solid var(--gray-blue);
+  border-radius: 10px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.submit-form input:focus,
+.submit-form textarea:focus,
+.submit-form select:focus {
+  outline: none;
+  border-color: var(--mid-blue);
+  box-shadow: 0 0 5px rgba(20, 30, 97, 0.3);
+}
+
+.submit-form textarea {
+  resize: vertical;
+  min-height: 180px;
+}
+
+.submit-form button {
+  background-color: var(--mid-blue);
+  color: var(--light);
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.submit-form button:hover {
+  background-color: var(--dark-blue);
+}
+
+.submit-form button:disabled {
+  background-color: var(--gray-blue);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.verdict-box {
+  margin-top: 1.8rem;
+  padding: 1rem 1.2rem;
+  background-color: var(--light-transparent);
+  border-left: 4px solid var(--gray-blue);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--dark-blue);
+}
+
+.verdict-box.success {
+  border-left-color: green;
+  background-color: #e6ffe6;
+}
+
+.verdict-box.error {
+  border-left-color: red;
+  background-color: #ffe6e6;
+}
