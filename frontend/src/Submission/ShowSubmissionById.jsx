@@ -65,7 +65,7 @@ export const ShowSubmissionById = () => {
 
       <h3 className="code-label">Submitted Code:</h3>
       <pre className="submission-code">
-        {code}print("Hello, World!")
+        {code}
       </pre>
 
       <p className="note">Note: This is a read-only view of the submission code.</p>

@@ -18,12 +18,10 @@ function App() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route>
-            <Route path="/:contestId" element={<Leaderboard />} />
-            <Route path="/submissions/submit" element={<SubmitProblem />} />
-            <Route path="/submissions/mine" element={<FetchAllYourSubmissions />} />
-            <Route path="/submissions/:id" element={<ShowSubmissionById />} />
-          </Route>
+          <Route path="/contests/:contestId" element={<Leaderboard />} /> 
+          <Route path="/submissions/submit" element={<SubmitProblem />} />
+          <Route path="/submissions/mine" element={<FetchAllYourSubmissions />} />
+          <Route path="/submissions/:id" element={<ShowSubmissionById />} />
         </Route>
       </Routes>
     </Router>

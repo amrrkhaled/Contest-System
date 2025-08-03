@@ -120,3 +120,58 @@
   border-left-color: red;
   background-color: #ffe6e6;
 }
+
+.go-submissions-btn {
+  background-color: var(--mid-blue);
+  color: var(--light);
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.go-submissions-btn:hover {
+  background-color: var(--dark-blue);
+}
+
+/* ✅ Updated File Upload Style */
+.file-upload {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px dashed var(--gray-blue);
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.file-upload:hover {
+  border-color: var(--mid-blue);
+  background-color: #f5f7ff;
+}
+
+.file-upload label {
+  font-weight: 600;
+  color: var(--mid-blue);
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+.file-upload input[type="file"] {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--gray-blue);
+  background-color: #fff;
+  color: var(--dark-blue);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.file-upload input[type="file"]:hover {
+  border-color: var(--mid-blue);
+}
