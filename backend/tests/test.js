@@ -39,19 +39,19 @@ async function runTest() {
   await Promise.all([
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
-      language_id: 1,
+      language_id: 13,
       code: codeAC
     }, { headers: { Authorization: `Bearer ${tokens[0]}` } }),
 
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
-      language_id: 1,
+      language_id: 13,
       code: codeWA
     }, { headers: { Authorization: `Bearer ${tokens[1]}` } }),
 
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
-      language_id: 1,
+      language_id: 13,
       code: codeTLE
     }, { headers: { Authorization: `Bearer ${tokens[2]}` } }),
   ]);
