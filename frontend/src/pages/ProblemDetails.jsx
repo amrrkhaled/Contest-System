@@ -1,36 +1,115 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Typography, Paper } from "@mui/material";
+import { Typography, Paper, Button, TextField, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 
 const ProblemDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
+
     const [problem, setProblem] = useState(null);
     const [notFound, setNotFound] = useState(false);
+    const [languages, setLanguages] = useState([]);
+    const [languageId, setLanguageId] = useState("");
+    const [code, setCode] = useState("");
+    const [verdict, setVerdict] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
+    //problem details
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/problems/${id}`)
+        const token = localStorage.getItem("token");
+        if (!token) {
+        navigate("/login");
+        return;
+        }
+
+        axios.get(`http://localhost:5000/api/problems/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+        })
         .then(res => setProblem(res.data))
         .catch(err => {
-        console.error("Problem fetch failed:", err);
-        setNotFound(true);
+            console.error("Problem fetch failed:", err);
+            if (err.response?.status === 401) {
+            navigate("/login");
+            } else {
+            setNotFound(true);
+            }
         });
-    }, [id]);
+    }, [id, navigate]);
+
+    //languages
+    useEffect(() => {
+        axios.get("http://localhost:5000/api/languages")
+        .then(res => setLanguages(res.data))
+        .catch(err => {
+            console.error("Error fetching languages:", err);
+            setError("Failed to fetch languages.");
+        });
+    }, []);
+
+    //files
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+        setCode(event.target.result);
+        };
+        reader.readAsText(file);
+    };
+
+    //submit solution
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess(false);
+        setLoading(true);
+
+        try {
+        const res = await axios.post(
+            "http://localhost:5000/api/submissions",
+            {
+            problem_id: id,
+            language_id: languageId,
+            code,
+            },
+            {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            }
+        );
+        setVerdict(res.data.verdict);
+        setSuccess(true);
+        } catch (err) {
+        console.error("Submission error:", err.response || err.message || err);
+        setError(err.response?.data?.error || "Submission failed. Please try again.");
+        } finally {
+        setLoading(false);
+        }
+    };
 
     if (notFound || !problem)
-        return <Typography style={{ display: "flex", justifyContent: "center", height: "89vh", alignItems: "center" }} variant="h5">Problem not found</Typography>;
+        return (
+        <Typography style={{ display: "flex", justifyContent: "center", height: "89vh", alignItems: "center" }} variant="h5">
+            Problem not found
+        </Typography>
+        );
 
     return (
         <div style={{ padding: "2rem", backgroundColor: "#EEEEEE", minHeight: "89vh" }}>
+        {/* Problem details */}
         <Paper style={{ padding: "1.5rem", backgroundColor: "#FFFFFF", borderRadius: "10px", marginTop: "5rem" }}>
-            <Typography variant="h4" gutterBottom style={{ color: "#0F044C", fontWeight: "bold" }}>{problem.title}</Typography>
-
-            <Typography variant="body2" style={{ marginTop: "1rem", color: "#787A91" }}>
-                Time Limit: {problem.time_limit_ms} ms | Memory Limit: {problem.memory_limit_mb} MB
+            <Typography variant="h4" gutterBottom style={{ color: "#0F044C", fontWeight: "bold" }}>
+            {problem.title}
             </Typography>
 
-            <br/>
+            <Typography variant="body2" style={{ marginTop: "1rem", color: "#787A91" }}>
+            Time Limit: {problem.time_limit_ms} ms | Memory Limit: {problem.memory_limit_mb} MB
+            </Typography>
 
+            <br />
             <Typography variant="body1" paragraph>{problem.description}</Typography>
 
             <Typography variant="h6" style={{ color: "#141E61" }}>Input</Typography>
@@ -41,13 +120,89 @@ const ProblemDetails = () => {
 
             <Typography variant="h6" style={{ color: "#141E61" }}>Sample Input</Typography>
             <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem" }}>
-                <pre>{problem.sample_input}</pre>
+            <pre>{problem.sample_input}</pre>
             </Paper>
 
             <Typography variant="h6" style={{ color: "#141E61" }}>Sample Output</Typography>
             <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem" }}>
-                <pre>{problem.sample_output}</pre>
+            <pre>{problem.sample_output}</pre>
             </Paper>
+        </Paper>
+
+        {/* Submission form */}
+        <Paper style={{ padding: "1.5rem", backgroundColor: "#FFFFFF", borderRadius: "10px", marginTop: "2rem" }}>
+            <Typography variant="h5" gutterBottom style={{ color: "#0F044C" }}>Submit Solution</Typography>
+            <form onSubmit={handleSubmit}>
+            <Select
+                fullWidth
+                value={languageId}
+                onChange={(e) => setLanguageId(e.target.value)}
+                displayEmpty
+                style={{ marginBottom: "1rem" }}
+                required
+            >
+                <MenuItem value="" disabled>Select Language</MenuItem>
+                {languages.map((lang) => (
+                <MenuItem key={lang.id} value={lang.id}>{lang.name}</MenuItem>
+                ))}
+            </Select>
+
+            {/* File upload */}
+            <Button
+                variant="outlined"
+                component="label"
+                fullWidth
+                style={{ marginBottom: "1rem" }}
+            >
+                Upload Code File
+                <input
+                type="file"
+                accept=".cpp,.java,.py,.c,.txt"
+                hidden
+                onChange={handleFileUpload}
+                />
+            </Button>
+
+            <TextField
+                fullWidth
+                multiline
+                minRows={10}
+                variant="outlined"
+                placeholder="Write your code here..."
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                style={{ marginBottom: "1rem" }}
+                required
+            />
+
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={loading}
+                fullWidth
+            >
+                {loading ? "Submitting..." : "Submit"}
+            </Button>
+            </form>
+
+            {success && (
+            <Typography style={{ color: "green", marginTop: "1rem" }}>
+                ✅ Submitted successfully! Verdict: {verdict}
+                <Button
+                style={{ marginLeft: "1rem" }}
+                onClick={() => navigate("/submissions/mine")}
+                >
+                Go to My Submissions
+                </Button>
+            </Typography>
+            )}
+
+            {error && (
+            <Typography style={{ color: "red", marginTop: "1rem" }}>
+                ❌ {error}
+            </Typography>
+            )}
         </Paper>
         </div>
     );
