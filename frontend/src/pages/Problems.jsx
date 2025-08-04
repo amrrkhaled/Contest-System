@@ -1,24 +1,43 @@
 import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ContestContext } from "../context/ContextCreation";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 const Problems = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [problems, setProblems] = useState([]);
   const { timeLeft } = useContext(ContestContext); // Keep countdown from context
   const problemsPerPage = 6;
-  const solvedProblems = 3; // Dummy solved count
+  const [solvedProblems, setSolvedProblems] = useState(0);
 
-useEffect(() => {
-  axios.get('http://localhost:5000/api/problems')
-    .then(res => {
-      console.log("Fetched problems:", res.data)
-      setProblems(res.data)
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    // Fetch problems
+    axios.get('http://localhost:5000/api/problems', {
+      headers: { Authorization: `Bearer ${token}` }
     })
-    .catch(err => console.error("API error:", err))
-}, [])
+    .then(res => setProblems(res.data))
+    .catch(err => {
+      console.error("API error:", err);
+      if (err.response?.status === 401) navigate('/login');
+    });
+
+    // Fetch solved problems count
+    axios.get('http://localhost:5000/api/submissions/solved-count', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => setSolvedProblems(res.data.solvedCount))
+    .catch(err => console.error("Solved count API error:", err));
+
+  }, [navigate]);
 
   
   const handleChange = (event, value) => setPage(value);

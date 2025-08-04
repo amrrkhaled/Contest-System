@@ -78,3 +78,22 @@ exports.getSubmissionById = async (req, res) => {
     res.status(500).json({ error: 'Could not fetch submission' });
   }
 };
+
+// ✅ Get count of solved problems (Accepted verdict)
+exports.getSolvedCount = async (req, res) => {
+  const teamId = req.user.id;
+
+  try {
+    const { rows } = await db.query(
+      `SELECT COUNT(DISTINCT problem_id) AS solved_count
+       FROM submissions
+       WHERE team_id = $1 AND verdict = 'Accepted'`,
+      [teamId]
+    );
+
+    res.json({ solvedCount: rows[0].solved_count });
+  } catch (err) {
+    console.error('Error fetching solved problems count:', err);
+    res.status(500).json({ error: 'Could not fetch solved count' });
+  }
+};
