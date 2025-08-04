@@ -11,9 +11,9 @@ const JUDGE0_HEADERS = {
 
 // Local language_id → Judge0 language_id
 const languageMap = {
-  13: 54, // C++
-  14: 71, // Python 3
-  15: 62  // Java
+  1: 54, // C++
+  2: 71, // Python 3
+  3: 62  // Java
 };
 
 exports.judgeSubmission = async function judgeSubmission(submissionId) {

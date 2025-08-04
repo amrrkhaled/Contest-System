@@ -1,30 +1,26 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import { ContestContext } from "../context/ContextCreation";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-const problems = [
-  { id: "A", title: "Two Sum", contest_id: 1 },
-  { id: "B", title: "String Reversal", contest_id: 1 },
-  { id: "C", title: "Graph Paths", contest_id: 2 },
-  { id: "D", title: "Binary Search", contest_id: 2 },
-  { id: "E", title: "Sorting Arrays", contest_id: 3 },
-  { id: "F", title: "Prime Checker", contest_id: 3 },
-  { id: "G", title: "Matrix Multiplication", contest_id: 4 },
-  { id: "H", title: "Palindrome Checker", contest_id: 4 },
-  { id: "I", title: "Knapsack Problem", contest_id: 5 },
-  { id: "J", title: "Minimum Spanning Tree", contest_id: 5 },
-  { id: "K", title: "Dijkstra's Algorithm", contest_id: 6 },
-  { id: "L", title: "Longest Common Subsequence", contest_id: 6 },
-];
-
 const Problems = () => {
   const [page, setPage] = useState(1);
+  const [problems, setProblems] = useState([]);
   const { timeLeft } = useContext(ContestContext); // Keep countdown from context
-
   const problemsPerPage = 6;
   const solvedProblems = 3; // Dummy solved count
 
+useEffect(() => {
+  axios.get('http://localhost:5000/api/problems')
+    .then(res => {
+      console.log("Fetched problems:", res.data)
+      setProblems(res.data)
+    })
+    .catch(err => console.error("API error:", err))
+}, [])
+
+  
   const handleChange = (event, value) => setPage(value);
 
   const formatTime = (seconds) => {
