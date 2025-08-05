@@ -5,15 +5,15 @@ require('dotenv').config();
 const JUDGE0_URL = 'https://judge0-ce.p.rapidapi.com/submissions';
 const JUDGE0_HEADERS = {
   'Content-Type': 'application/json',
-  'X-RapidAPI-Key': '3be4935bb2msh53e739e253a6d52p1cb82bjsn99004b779c9c',
+  'X-RapidAPI-Key': 'f8339d6f66msh226879f8990705cp161676jsn485a5adde2eb',
   'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
 };
 
 // Local language_id → Judge0 language_id
 const languageMap = {
-  13: 54, // C++
-  14: 71, // Python 3
-  15: 62  // Java
+  1: 54, // C++
+  2: 71, // Python 3
+  3: 62  // Java
 };
 
 exports.judgeSubmission = async function judgeSubmission(submissionId) {

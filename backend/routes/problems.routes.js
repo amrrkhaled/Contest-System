@@ -4,7 +4,7 @@ const problemController = require('../controllers/problems.controller');
 const authenticate = require('../middleware/auth.middleware');
 
 
-router.get('/',authenticate, problemController.getAllProblems);
-router.get('/:id',authenticate, problemController.getProblemById);
+router.get('/', problemController.getAllProblems);
+router.get('/:id', problemController.getProblemById);
 
 module.exports = router;
