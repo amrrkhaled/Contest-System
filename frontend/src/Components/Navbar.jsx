@@ -8,6 +8,8 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"; // Leaderboard
 import "../style/Navbar.css";
 import logo from "../logo.png";
 import alextremeLogo from "../AleXtreme .png";
+import { CONTEST_ID } from "../config/config";
+
 
 const Navbar = ({ isLoggedIn }) => {
   const location = useLocation();
@@ -36,7 +38,7 @@ const Navbar = ({ isLoggedIn }) => {
               <Link to="/submissions" className="nav-link" title="Submissions">
                 <AssignmentTurnedInIcon className="nav-icon" />
               </Link>
-              <Link to="/leaderboard" className="nav-link" title="Leaderboard">
+              <Link to={`/leaderboard/${CONTEST_ID}`} className="nav-link" title="Leaderboard">
                 <EmojiEventsIcon className="nav-icon" />
               </Link>
             </>
