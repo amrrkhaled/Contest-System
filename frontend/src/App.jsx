@@ -13,7 +13,7 @@ import ProblemDetails from "./pages/ProblemDetails";
 import { ContestProvider } from "./context/ContestContext";
 import "./App.css";
 
-const isLoggedIn = true; // TODO: Replace with real auth logic
+const isLoggedIn = false;; // TODO: Replace with real auth logic
 
 function App() {
   return (
