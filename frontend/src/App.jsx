@@ -14,7 +14,7 @@ import { ContestProvider } from "./context/ContestContext";
 import "./App.css";
 import { CONTEST_ID } from "./config/config";
 
-const isLoggedIn = true;; // TODO: Replace with real auth logic
+const isLoggedIn = false; // TODO: Replace with real auth logic
 console.log("Contest ID from env:", CONTEST_ID);
 
 function App() {
