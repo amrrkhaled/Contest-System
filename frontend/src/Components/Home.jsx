@@ -1,4 +1,3 @@
-import NavBarGuest from "./NavbarGuest";
 import "../style/Home.css";
 
 const Home = () => {

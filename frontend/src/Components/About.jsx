@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import NavBarGuest from "./NavbarGuest";
 import "../style/About.css";
 import first from "../first.jpg";
 import second from "../second.jpg";
 import third from "../third.jpg";
-import NavbarAbout from "./NavbarAbout";
 
 const images = [first, second, third];
 

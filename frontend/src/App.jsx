@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Leaderboard } from "./Components/Leaderboard";
+import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import About from "./Components/About";
 //import Login from './Components/Login';
@@ -10,6 +11,7 @@ function App() {
   return (
     <div>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/:contestId" element={<Leaderboard />} />
           <Route path="/" element={<Home />} />
