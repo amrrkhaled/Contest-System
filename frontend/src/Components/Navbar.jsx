@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import InfoIcon from "@mui/icons-material/Info";
 import HomeIcon from "@mui/icons-material/Home";
-import "../styles/Navbar.css";
+import "../style/Navbar.css";
 import logo from "../logo.png";
 import alextremeLogo from "../AleXtreme .png";
 
