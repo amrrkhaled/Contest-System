@@ -12,13 +12,16 @@ import Problems from "./pages/Problems";
 import ProblemDetails from "./pages/ProblemDetails";
 import { ContestProvider } from "./context/ContestContext";
 import "./App.css";
+import { CONTEST_ID } from "./config/config";
 
-const isLoggedIn = false;; // TODO: Replace with real auth logic
+const isLoggedIn = true;; // TODO: Replace with real auth logic
+console.log("Contest ID from env:", CONTEST_ID);
 
 function App() {
   return (
     <ContestProvider>
       <Router>
+
         <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
           <Route
@@ -28,8 +31,10 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/problems" element={<Problems />} />
           <Route path="/problems/:id" element={<ProblemDetails />} />
-          <Route path="/:contestId" element={<Leaderboard />} />
-          <Route path="/submissions/mine" element={<FetchAllYourSubmissions />} />
+          <Route
+            path={`/leaderboard/${CONTEST_ID}`}
+            element={<Leaderboard />}
+          />          <Route path="/submissions/" element={<FetchAllYourSubmissions />} />
           <Route path="/submissions/:id" element={<ShowSubmissionById />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

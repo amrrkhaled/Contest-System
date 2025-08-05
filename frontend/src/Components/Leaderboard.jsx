@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import '../style/Leaderboard.css'; 
+import { CONTEST_ID } from "../config/config";
 
 export const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { contestId } = useParams();
+  const contestId = CONTEST_ID
 
   useEffect(() => {
     const fetchLeaderBoard = async () => {
