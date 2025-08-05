@@ -3,7 +3,6 @@ import "../style/Home.css";
 const Home = () => {
   return (
     <div>
-      <NavBarGuest />
       <div className="home-container">
         <div className="welcome-box">
           <div className="animated-text">

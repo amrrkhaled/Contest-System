@@ -19,7 +19,7 @@ const About = () => {
 
   return (
     <div>
-      <NavbarAbout />
+      
       <div className="winners-box">
         <h3>🏆LAST YEAR WINNERS🏆</h3>
       </div>
