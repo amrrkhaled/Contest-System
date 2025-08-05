@@ -11,7 +11,7 @@ import About from "./Components/About";
 //import Leaderboard from "./Components/Leaderboard";
 import "./App.css";
 
-//const isLoggedIn = true;    NEEDS THE LOGIC
+const isLoggedIn = false;   // NEEDS THE LOGIC
 
 function App() {
   return (
@@ -20,10 +20,10 @@ function App() {
         <Navbar isLoggedIn={isLoggedIn} />
 
         <Routes>
-         {/* <Route
+         <Route
           path="/"
           element={isLoggedIn ? <Navigate to="/problems" replace /> : <Home />}
-        /> */}
+        />
           <Route path="/:contestId" element={<Leaderboard />} />
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
