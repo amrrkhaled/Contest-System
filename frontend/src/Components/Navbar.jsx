@@ -1,4 +1,3 @@
-// Navbar.jsx
 import { Link, useLocation } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import InfoIcon from "@mui/icons-material/Info";

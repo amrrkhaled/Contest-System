@@ -3,33 +3,37 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 100px); 
-  background-color: EEEEEE;
+  background-color: #F8FAFC;
+  
 }
 
 .welcome-box {
-  background-color: #0F044C;
+  background-color: #021526;
   padding: 50px 150px;
-  border-radius: 60px;
+  border-radius: 5px;
+  width: 70% ;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
-  animation: fadeInUp 1s ease-out;
+  animation: fadeInUp 2s ease-out;
   text-align: center;
+ 
 }
 
 .animated-text .line {
   font-size: 50px;
   font-weight: 500;
-  margin: 10px 0;
+  margin: 0px 0;
   color: white;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Product Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
   animation: slideIn 1s ease forwards;
 }
 
 .animated-text .title {
-  font-size: 50px;
-  font-weight: 800;
+  font-size: 80px;
+  font-weight: 950;
+  font-family: 'Product Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
   margin-top: 20px;
+  margin-bottom: 20px;
   color: white;
-  font-family: 'Lexend', sans-serif;
   animation: zoomIn 1s ease forwards;
 }
 
@@ -66,3 +70,5 @@
     transform: scale(1);
   }
 }
+
+
