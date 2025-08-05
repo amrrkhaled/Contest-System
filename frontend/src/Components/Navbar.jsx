@@ -16,10 +16,6 @@ const Navbar = ({ isLoggedIn }) => {
 
   const isHomePage = path === "/";
   const isAboutPage = path === "/About";
-  const isLoginPage = path === "/Login";
-  const isProblemsPage = path === "/problems";
-  const isSubmissionsPage = path === "/submissions";
-  const isLeaderboardPage = path === "/leaderboard";
 
   return (
     <div className="navbar-wrapper">
@@ -35,21 +31,15 @@ const Navbar = ({ isLoggedIn }) => {
         <div className="nav-links">
           {isLoggedIn ? (
             <>
-              {!isProblemsPage && (
-                <Link to="/problems" className="nav-link" title="Problems">
-                  <ListAltIcon className="nav-icon" />
-                </Link>
-              )}
-              {!isSubmissionsPage && (
-                <Link to="/submissions" className="nav-link" title="Submissions">
-                  <AssignmentTurnedInIcon className="nav-icon" />
-                </Link>
-              )}
-              {!isLeaderboardPage && (
-                <Link to="/leaderboard" className="nav-link" title="Leaderboard">
-                  <EmojiEventsIcon className="nav-icon" />
-                </Link>
-              )}
+              <Link to="/problems" className="nav-link" title="Problems">
+                <ListAltIcon className="nav-icon" />
+              </Link>
+              <Link to="/submissions" className="nav-link" title="Submissions">
+                <AssignmentTurnedInIcon className="nav-icon" />
+              </Link>
+              <Link to="/leaderboard" className="nav-link" title="Leaderboard">
+                <EmojiEventsIcon className="nav-icon" />
+              </Link>
             </>
           ) : (
             <>
