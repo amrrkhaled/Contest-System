@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Leaderboard } from "./Components/Leaderboard";
@@ -5,10 +6,16 @@ import Navbar from "./Components/Navbar";
 
 import Home from "./Components/Home";
 import About from "./Components/About";
-//import Login from "./Components/Login";
-//import Problems from "./Components/Problems";
-//import Submissions from "./Components/Submissions";
-//import Leaderboard from "./Components/Leaderboard";
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login } from './Auth/Login';
+import { Register } from './Auth/Register';
+import { Leaderboard } from './Components/Leaderboard';
+import { FetchAllYourSubmissions } from './Submission/FetchAllYourSubmissions';
+import { ShowSubmissionById } from './Submission/ShowSubmissionById';
+import Problems from "./pages/Problems";
+import ProblemDetails from "./pages/ProblemDetails";
+import { ContestProvider } from "./context/ContestContext";
 import "./App.css";
 
 const isLoggedIn = false;   // NEEDS THE LOGIC
@@ -27,15 +34,18 @@ function App() {
           <Route path="/:contestId" element={<Leaderboard />} />
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
-          {/* 
-          <Route path="/Login" element={<Login />} />
           <Route path="/problems" element={<Problems />} />
-          <Route path="/submissions" element={<Submissions />} />
-         */}
+          <Route path="/problems/:id" element={<ProblemDetails />} />
+          <Route path="/:contestId" element={<Leaderboard />} />
+          <Route path="/submissions/mine" element={<FetchAllYourSubmissions />} />
+          <Route path="/submissions/:id" element={<ShowSubmissionById />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
         </Routes>
       </Router>
     </div>
+
   );
 }
 

@@ -19,6 +19,7 @@ const contestRoutes = require('./routes/contest.routes');
 const submissionRoutes = require('./routes/submission.routes');
 const leaderboardRoutes = require('./routes/leaderboard.routes');
 const problemRoutes = require('./routes/problems.routes');
+const languageRoutes = require('./routes/language.routes');
 
 app.use('/api/leaderboard', leaderboardRoutes);
 // Use routes
@@ -26,6 +27,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contests', contestRoutes);
 app.use('/api/problems', problemRoutes);
 app.use('/api/submissions', submissionRoutes);
+app.use('/api/languages', languageRoutes);
 
 // Default route
 app.get('/', (req, res) => {
