@@ -9,14 +9,16 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"; // Leaderboard
 import "../style/Navbar.css";
 import logo from "../logo.png";
 import alextremeLogo from "../AleXtreme .png";
+import { useContext } from "react";
+import { AuthContext } from "../context/ContextCreation";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
+  const { isLoggedIn } = useContext(AuthContext);
   const location = useLocation();
   const path = location.pathname;
 
   const isHomePage = path === "/";
   const isAboutPage = path === "/About";
-  const isLoginPage = path === "/Login";
   const isProblemsPage = path === "/problems";
   const isSubmissionsPage = path === "/submissions";
   const isLeaderboardPage = path === "/leaderboard";

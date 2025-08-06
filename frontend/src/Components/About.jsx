@@ -33,7 +33,7 @@ const About = () => {
         </div>
       </div>
       <div className="winners-box">
-        <h2>⭐ ABOUT US ⭐</h2>
+        <h2 id="white">⭐ ABOUT US ⭐</h2>
       </div>
       <div className="about-us-box">
         <p>

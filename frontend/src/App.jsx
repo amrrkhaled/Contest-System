@@ -12,29 +12,27 @@ import Problems from "./pages/Problems";
 import ProblemDetails from "./pages/ProblemDetails";
 import { ContestProvider } from "./context/ContestContext";
 import "./App.css";
-
-const isLoggedIn = true; // TODO: Replace with real auth logic
+import { AuthProvider } from "./context/AuthProvider";
 
 function App() {
   return (
     <ContestProvider>
-      <Router>
-        <Navbar isLoggedIn={isLoggedIn} />
-        <Routes>
-          <Route
-            path="/"
-            element={isLoggedIn ? <Navigate to="/problems" replace /> : <Home />}
-          />
-          <Route path="/about" element={<About />} />
-          <Route path="/problems" element={<Problems />} />
-          <Route path="/problems/:id" element={<ProblemDetails />} />
-          <Route path="/:contestId" element={<Leaderboard />} />
-          <Route path="/submissions/mine" element={<FetchAllYourSubmissions />} />
-          <Route path="/submissions/:id" element={<ShowSubmissionById />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+      <AuthProvider>
+        <Router>
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/problems" element={<Problems />} />
+            <Route path="/problems/:id" element={<ProblemDetails />} />
+            <Route path="/:contestId" element={<Leaderboard />} />
+            <Route path="/submissions" element={<FetchAllYourSubmissions />} />
+            <Route path="/submissions/:id" element={<ShowSubmissionById />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
       </Router>
+      </AuthProvider>
     </ContestProvider>
   );
 }

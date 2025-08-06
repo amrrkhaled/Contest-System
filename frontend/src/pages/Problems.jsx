@@ -52,7 +52,7 @@ const Problems = () => {
   const displayedProblems = problems.slice((page - 1) * problemsPerPage, page * problemsPerPage);
 
   return (
-    <div style={{ backgroundColor: "#EEEEEE", minHeight: "89vh", padding: "2rem", display: "flex", alignItems: "center", gap: "2rem" }}>
+    <div style={{ backgroundColor: "#EEEEEE", minHeight: "83vh", padding: "2rem", display: "flex", alignItems: "center", gap: "2rem" }}>
       {/* Main table */}
       <div style={{ flex: 3 }}>
         <Typography variant="h4" gutterBottom style={{ color: "#0F044C", fontWeight: "bold" }}>Problems</Typography>
