@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../style/login.css';
+import { AuthContext } from '../context/ContextCreation';
 
 export const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export const Login = () => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        login();
         console.log('Login successful');
         navigate('/1'); // Redirect to your contest page
       } else {

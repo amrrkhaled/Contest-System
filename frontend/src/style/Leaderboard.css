@@ -18,7 +18,7 @@ body {
 .leaderboard-container {
   position: relative;
   padding: 4rem 2rem;
-  min-height: 100vh;
+  min-height: 83vh;
   background: linear-gradient(to bottom, var(--color-light), var(--color-light));
   overflow: hidden;
 }
