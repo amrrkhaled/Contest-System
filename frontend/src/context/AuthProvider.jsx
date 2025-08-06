@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        // Sync with storage if needed
         localStorage.setItem("isLoggedIn", isLoggedIn);
     }, [isLoggedIn]);
 

@@ -19,11 +19,9 @@ const About = () => {
 
   return (
     <div>
-      
       <div className="winners-box">
-        <h3>🏆LAST YEAR WINNERS🏆</h3>
+        <h3>LAST YEAR WINNERS</h3>
       </div>
-      <div className="about-container">
         <div className="small-slideshow">
           <img
             src={images[current]}
@@ -31,9 +29,9 @@ const About = () => {
             className="small-slide-image"
           />
         </div>
-      </div>
+      
       <div className="winners-box">
-        <h2 id="white">⭐ ABOUT US ⭐</h2>
+        <h2 id="white">ABOUT US </h2>
       </div>
       <div className="about-us-box">
         <p>
@@ -41,15 +39,15 @@ const About = () => {
         </p>
         <ul>
           <li>
-            <strong>👥 Teamwork:</strong> Form a team of up to 3 and take on fun,
+            <strong>Teamwork:</strong> Form a team of up to 3 and take on fun,
             challenging problems.
           </li>
           <li>
-            <strong>🧠 Learning:</strong> Strengthen your coding skills through
+            <strong>Learning:</strong> Strengthen your coding skills through
             real-world problem-solving.
           </li>
           <li>
-            <strong>🏆 Prizes:</strong> Win awards, IEEE memberships, and bragging
+            <strong>Prizes:</strong> Win awards, IEEE memberships, and bragging
             rights!
           </li>
         </ul>

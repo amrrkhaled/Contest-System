@@ -24,7 +24,7 @@ export const Register = () => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         console.log('Registration successful');
-        navigate('/1');
+        navigate('/login');
       } else {
         setError('Registration failed');
       }
