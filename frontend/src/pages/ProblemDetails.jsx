@@ -191,7 +191,7 @@ const ProblemDetails = () => {
                 ✅ Submitted successfully! Verdict: {verdict}
                 <Button
                 style={{ marginLeft: "1rem" }}
-                onClick={() => navigate("/submissions/mine")}
+                onClick={() => navigate("/submissions/")}
                 >
                 Go to My Submissions
                 </Button>
