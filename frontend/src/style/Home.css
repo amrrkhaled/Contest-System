@@ -2,9 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 100px); 
+  min-height: calc(100vh - 125px); 
   background-color: #F8FAFC;
-  
 }
 
 .welcome-box {
@@ -15,7 +14,6 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
   animation: fadeInUp 2s ease-out;
   text-align: center;
- 
 }
 
 .animated-text .line {
@@ -70,5 +68,3 @@
     transform: scale(1);
   }
 }
-
-

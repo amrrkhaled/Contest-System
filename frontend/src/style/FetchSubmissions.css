@@ -1,5 +1,5 @@
 .submissions-container {
-  background-color: var(--light);
+  background-color: white;
   color: var(--dark-blue);
   padding: 2rem;
   max-width: 900px;
@@ -18,9 +18,13 @@
 
 .submissions-table {
   width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
   border-collapse: collapse;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 10px;
   overflow: hidden;
-  border-radius: 12px;
 }
 
 .submissions-table thead {
@@ -28,21 +32,31 @@
   color: var(--light);
 }
 
-.submissions-table th,
+.submissions-table th {
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background-color: #141E61;
+}
+
 .submissions-table td {
   padding: 0.9rem;
   text-align: center;
   font-size: 1rem;
   border-bottom: 1px solid var(--gray-blue);
+  color: var(--mid-blue);
 }
 
-.submissions-table tr:nth-child(even) {
-  background-color: var(--light);
+.submissions-table tr {
+  background-color: white;
 }
 
-.submissions-table tr:nth-child(odd) {
-  background-color: var(--light-transparent);
+.submissions-table tr:hover {
+  background-color: #e6f0ff;
 }
+
 
 .alert {
   margin-top: 1.2rem;

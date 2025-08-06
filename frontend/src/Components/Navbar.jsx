@@ -9,9 +9,11 @@ import "../style/Navbar.css";
 import logo from "../logo.png";
 import alextremeLogo from "../AleXtreme .png";
 import { CONTEST_ID } from "../config/config";
+import { useContext } from "react";
+import { AuthContext } from "../context/ContextCreation";
 
-
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
+  const { isLoggedIn } = useContext(AuthContext);
   const location = useLocation();
   const path = location.pathname;
 
