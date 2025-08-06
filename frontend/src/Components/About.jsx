@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 import "../style/About.css";
 import first from "../first.jpg";
 import second from "../second.jpg";
 import third from "../third.jpg";
-
 
 const images = [first, second, third];
 
@@ -24,7 +22,6 @@ const About = () => {
       <div className="winners-box">
         <h3>LAST YEAR WINNERS</h3>
       </div>
-     
         <div className="small-slideshow">
           <img
             src={images[current]}
@@ -34,7 +31,7 @@ const About = () => {
         </div>
       
       <div className="winners-box">
-        <h2>ABOUT US </h2>
+        <h2 id="white">ABOUT US </h2>
       </div>
       <div className="about-us-box">
         <p>

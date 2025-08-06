@@ -1,16 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Product+Sans:400,700&display=swap');
+
 :root {
   --color-dark-blue: #0F044C;
   --color-mid-blue: #141E61;
   --color-gray-blue: #787A91;
   --color-light: #EEEEEE;
   --color-accent: #4682A9;
-  --color-background: #F6F4EB;
+  --color-background: #EEEEEE;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Product Sans', sans-serif;
   background-color: var(--color-background);
   color: var(--color-dark-blue);
 }
@@ -18,7 +20,7 @@ body {
 .leaderboard-container {
   position: relative;
   padding: 4rem 2rem;
-  min-height: 100vh;
+  min-height: 83vh;
   background: linear-gradient(to bottom, var(--color-light), var(--color-light));
   overflow: hidden;
 }
@@ -30,7 +32,7 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0.3;
   text-align: center;
-  z-index: 0;
+  z-index: 1;
   user-select: none;
   font-family: 'Segoe UI Black', sans-serif;
 }
@@ -71,27 +73,19 @@ body {
   border-collapse: collapse;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 2;
+  z-index: 0;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .table-head-cell {
-  background-color: var(--color-dark-blue);
+  background-color: var(--color-mid-blue);
   color: var(--color-light);
   font-weight: bold;
   padding: 1rem;
   text-align: center;
   font-size: 1.1rem;
-}
-
-.table-row-even {
-  background-color: var(--color-light);
-}
-
-.table-row-odd {
-  background-color: var(--color-light-transparent-weak, #f0f0f0);
 }
 
 .table-cell {

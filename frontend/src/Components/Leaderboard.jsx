@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
 import '../style/Leaderboard.css'; 
 import { CONTEST_ID } from "../config/config";
 
@@ -24,18 +23,18 @@ export const Leaderboard = () => {
 
     fetchLeaderBoard();
 
-    const interval = setInterval(fetchLeaderBoard, 10000); // every 10 sec
+    const interval = setInterval(fetchLeaderBoard, 10000);
     return () => clearInterval(interval);
   }, [contestId]);
 
   return (
     <div className="leaderboard-container">
-      <div className="leaderboard-watermark-wrapper">
+      {/* <div className="leaderboard-watermark-wrapper">
         <div className="leaderboard-watermark">IEEE</div>
         <div className="leaderboard-subtext">AlexSB</div>
         <br />
         <div className="leaderboard-subtext">ALEXTREME</div>
-      </div>
+      </div> */}
 
       <div className="leaderboard-header">
         <h1>🏆 Leaderboard 🏆</h1>

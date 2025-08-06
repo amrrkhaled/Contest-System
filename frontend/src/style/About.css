@@ -1,3 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Product+Sans:400,700&display=swap');
+
+body,
+.about-container,
+.small-slideshow,
+.small-slide-image,
+.winners-box,
+.winners-box h3,
+.about-us-box,
+.about-us-box h2,
+.about-us-box ul,
+.about-us-box li {
+  font-family: 'Product Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+}
+
+.about-container {
+  width: 80%;
+  height: 500px;
+  margin: 50px auto;
+  display: flex;
+  background-color: #EEEEEE;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #0f044c;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
 .small-slideshow {
   width: 75%;    
   height: 425px;
@@ -13,7 +43,6 @@
   transition: opacity 0.5s ease-in-out;
 }
 
-
 .winners-box {
   margin-top: 30px;
   margin-bottom: 30px;
@@ -25,7 +54,7 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
- 
+
 }
 
 .winners-box h3 {
@@ -43,8 +72,7 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   line-height: 1.7;
   font-size: 2rem;
-   width: 73%;
-
+  width: 73%;
 }
 
 .about-us-box h2 {
@@ -52,7 +80,6 @@
   font-size: 2rem;
   margin-bottom: 20px;
 }
-
 
 .about-us-box ul {
   list-style: none;      
@@ -79,17 +106,6 @@
   color: #fff;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Product+Sans:400,700&display=swap');
-
-body,
-.about-container,
-.small-slideshow,
-.small-slide-image,
-.winners-box,
-.winners-box h3,
-.about-us-box,
-.about-us-box h2,
-.about-us-box ul,
-.about-us-box li {
-  font-family: 'Product Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+#white {
+  color: #fff;
 }
