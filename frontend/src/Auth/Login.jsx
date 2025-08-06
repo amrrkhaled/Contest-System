@@ -26,7 +26,7 @@ export const Login = () => {
         localStorage.setItem('token', response.data.token);
         login();
         console.log('Login successful');
-        navigate('/1'); // Redirect to your contest page
+        navigate('/');
       } else {
         setError('Login failed');
       }

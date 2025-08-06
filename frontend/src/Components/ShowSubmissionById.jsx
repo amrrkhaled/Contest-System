@@ -27,7 +27,7 @@ export const ShowSubmissionById = () => {
         const data = response.data;
 
         setSubmissionId(data.id);
-        setTeamId(data.team_id || ""); // If included in backend response
+        setTeamId(data.team_id || "");
         setProblemId(data.problem_id);
         setTitle(data.title);
         setVerdict(data.verdict);

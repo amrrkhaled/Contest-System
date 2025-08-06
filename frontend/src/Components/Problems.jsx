@@ -9,7 +9,7 @@ const Problems = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [problems, setProblems] = useState([]);
-  const { timeLeft } = useContext(ContestContext); // Keep countdown from context
+  const { timeLeft } = useContext(ContestContext);
   const problemsPerPage = 6;
   const [solvedProblems, setSolvedProblems] = useState(0);
 
@@ -20,7 +20,6 @@ const Problems = () => {
       return;
     }
 
-    // Fetch problems
     axios.get('http://localhost:5000/api/problems', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -30,7 +29,6 @@ const Problems = () => {
       if (err.response?.status === 401) navigate('/login');
     });
 
-    // Fetch solved problems count
     axios.get('http://localhost:5000/api/submissions/solved-count', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -39,7 +37,6 @@ const Problems = () => {
 
   }, [navigate]);
 
-  
   const handleChange = (event, value) => setPage(value);
 
   const formatTime = (seconds) => {
@@ -52,17 +49,18 @@ const Problems = () => {
   const displayedProblems = problems.slice((page - 1) * problemsPerPage, page * problemsPerPage);
 
   return (
-    <div style={{ backgroundColor: "#EEEEEE", minHeight: "83vh", padding: "2rem", display: "flex", alignItems: "center", gap: "2rem" }}>
-      {/* Main table */}
-      <div style={{ flex: 3 }}>
-        <Typography variant="h4" gutterBottom style={{ color: "#0F044C", fontWeight: "bold" }}>Problems</Typography>
-        <TableContainer component={Paper} style={{ borderRadius: "10px" }}>
+    <div style={{ backgroundColor: "#EEEEEE", minHeight: "83vh", padding: "2rem", display: "flex", flexDirection:"column" ,alignItems: "center", gap: "2rem" }}>
+      <Typography variant="h4" gutterBottom style={{ color: "#0F044C", fontWeight: "bold"}}>Problems</Typography>
+      <div style={{ display: "flex", justifyContent:"start" , alignItems: "center", gap: "5rem", marginBottom: "1rem" }}>
+        {/* Main table */}
+        <div style={{ flex: 3, width: "80vw" }}>
+        <TableContainer component={Paper} style={{ borderRadius: "10px", boxShadow: "0 6px 20px rgba(120,122,145,0.3)" }}>
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#141E61" }}>
-                <TableCell style={{ color: "#EEEEEE", width: "10vw"}}>ID</TableCell>
-                <TableCell style={{ color: "#EEEEEE", width: "40vw" }}>Title</TableCell>
-                <TableCell style={{ color: "#EEEEEE", width: "10vw" }}>Contest ID</TableCell>
+                <TableCell style={{ color: "white", fontWeight: "bold", fontSize: "1.1rem", textAlign: "center", width: "10vw"}}>ID</TableCell>
+                <TableCell style={{ color: "white", fontWeight: "bold", fontSize: "1.1rem", textAlign: "center", width: "40vw" }}>Title</TableCell>
+                <TableCell style={{ color: "white", fontWeight: "bold", fontSize: "1.1rem", textAlign: "center", width: "10vw" }}>Contest ID</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -71,11 +69,11 @@ const Problems = () => {
                   key={p.id}
                   component={RouterLink}
                   to={`/problems/${p.id}`}
-                  style={{ backgroundColor: "#FFFFFF", cursor: "pointer", textDecoration: "none" }}
+                  sx={{ backgroundColor: "white", cursor: "pointer", textDecoration: "none", "&:hover": { backgroundColor: "#e6f0ff" } }}
                 >
-                  <TableCell>{p.id}</TableCell>
-                  <TableCell>{p.title}</TableCell>
-                  <TableCell>{p.contest_id}</TableCell>
+                  <TableCell style={{ textAlign: "center", color: "#0F044C", borderBottom: "1px solid #787A91" }} >{p.id}</TableCell>
+                  <TableCell style={{ textAlign: "center", color: "#0F044C", borderBottom: "1px solid #787A91" }} >{p.title}</TableCell>
+                  <TableCell style={{ textAlign: "center", color: "#0F044C", borderBottom: "1px solid #787A91" }} >{p.contest_id}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -99,6 +97,8 @@ const Problems = () => {
           <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems} / {problems.length}</Typography>
         </Paper>
       </div>
+      </div>
+      
     </div>
   );
 };

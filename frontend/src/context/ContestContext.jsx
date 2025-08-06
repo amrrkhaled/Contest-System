@@ -12,16 +12,15 @@ export const ContestProvider = ({ children }) => {
     return saved ? parseInt(saved) : 0;
   });
 
-  // Reset timer on exit
+  // Reset timer on exit site (not refresh)
   useEffect(() => {
     if (!sessionStorage.getItem("initialized")) {
-      setTimeLeft(5 * 60 * 60); // Reset to 5 hours
+      setTimeLeft(5 * 60 * 60);
       localStorage.setItem("contestTime", 5 * 60 * 60);
       sessionStorage.setItem("initialized", "true");
     }
   }, []);
 
-  // Countdown logic
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -35,7 +34,6 @@ export const ContestProvider = ({ children }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // Sync solved problems
   useEffect(() => {
     localStorage.setItem("solvedProblems", solvedProblems);
   }, [solvedProblems]);
