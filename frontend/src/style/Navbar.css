@@ -1,9 +1,8 @@
 
 .navbar-wrapper {
   width: 100%;
-  background-color: #787A91;
-  border-bottom-left-radius: 80px;
-  border-bottom-right-radius: 80px;
+  background-color: #28282B;
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
@@ -27,8 +26,6 @@
   width: auto;
   object-fit: contain;
 }
-
-
 
 .nav-title {
   display: flex;
@@ -65,3 +62,5 @@
 .nav-icon {
   font-size: 46px; 
 }
+
+
