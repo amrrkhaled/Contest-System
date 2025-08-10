@@ -4,6 +4,8 @@ const readline = require('readline');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
+const baseURL = 'http://localhost:5000/api';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -27,7 +29,7 @@ function generatePassword(length = 8) {
 }
 
 async function insertTeamsAndSaveToFile() {
-  console.log('\n Enter team names (one per line). Press ENTER on empty line to finish.');
+  console.log('\nEnter team names (one per line). Press ENTER on empty line to finish.');
 
   const teams = [];
 
@@ -39,14 +41,21 @@ async function insertTeamsAndSaveToFile() {
     const password = generatePassword();
 
     try {
-      await pool.query(
-        `INSERT INTO teams (name, password, institution) VALUES ($1, $2, $3)`,
-        [name.trim(), password, institution || null]
-      );
-      console.log(`✅ Added team '${name.trim()}' with password: ${password}`);
+      // Call your controller API instead of DB directly
+      await axios.post(`${baseURL}/auth/register`, {
+        name: name.trim(),
+        institution: institution || null,
+        password
+      });
+
+      console.log(`✅ Registered team '${name.trim()}' with password: ${password}`);
       teams.push({ name: name.trim(), password });
     } catch (err) {
-      console.error(`❌ Error adding team '${name.trim()}':`, err.message);
+      if (err.response?.status === 409) {
+        console.error(`❌ Team '${name.trim()}' already exists! Skipping.`);
+      } else {
+        console.error(`❌ Error registering team '${name.trim()}':`, err.response?.data || err.message);
+      }
     }
   }
 
