@@ -17,9 +17,9 @@ const languageMap = {
 exports.judgeSubmission = async function judgeSubmission(submissionId) {
   try {
     const { rows } = await db.query(
-      `SELECT s.code, s.language_id, p.id AS problem_id
-       FROM submissions s JOIN problems p ON s.problem_id = p.id
-       WHERE s.id = $1`,
+      `SELECT s.code, s.language_id, s.contest_id, s.problem_id
+      FROM submissions s
+      WHERE s.id = $1`,
       [submissionId]
     );
 
@@ -32,8 +32,9 @@ exports.judgeSubmission = async function judgeSubmission(submissionId) {
 
     const { rows: testCases } = await db.query(
       `SELECT input, expected_output FROM test_cases
-       WHERE problem_id = $1 ORDER BY is_sample DESC`,
-      [sub.problem_id]
+      WHERE problem_id = $1 AND contest_id = $2
+      ORDER BY is_sample DESC`,
+      [sub.problem_id, sub.contest_id]
     );
 
     let maxTimeMs = 0;

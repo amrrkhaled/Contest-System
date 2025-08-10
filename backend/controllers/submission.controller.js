@@ -1,29 +1,24 @@
 const db = require('../config/db');
 const { judgeSubmission } = require('../judge/judgeSubmission');
 
-//  Submit a new solution
+// Submit a new solution
 exports.submit = async (req, res) => {
-  const { problem_id, language_id, code } = req.body;
-  const team_id = req.user.id; // From JWT token
+  const { contest_id, problem_id, language_id, code } = req.body;
+  const team_id = req.user.id;
 
-  if (!problem_id || !language_id || !code) {
+  if (!contest_id || !problem_id || !language_id || !code) {
     return res.status(400).json({ error: 'Missing fields' });
   }
 
   try {
     const result = await db.query(
       `INSERT INTO submissions (team_id, contest_id, problem_id, language_id, code, verdict)
-       VALUES (
-         $1,
-         (SELECT contest_id FROM problems WHERE id = $2),
-         $2, $3, $4, 'Pending'
-       ) RETURNING id`,
-      [team_id, problem_id, language_id, code]
+       VALUES ($1, $2, $3, $4, $5, 'Pending') RETURNING id`,
+      [team_id, contest_id, problem_id, language_id, code]
     );
 
     const submissionId = result.rows[0].id;
 
-    // 🔥 Trigger judge logic
     judgeSubmission(submissionId);
 
     res.status(201).json({ message: 'Submission received', submissionId });
@@ -33,18 +28,18 @@ exports.submit = async (req, res) => {
   }
 };
 
-// ✅ Get all submissions of the current team
+// Get all submissions of the current team
 exports.getMySubmissions = async (req, res) => {
   const teamId = req.user.id;
-
+  const contestId = req.query.contest_id; 
   try {
     const { rows } = await db.query(
-      `SELECT s.id, s.problem_id, p.title, s.verdict, s.submitted_at
+      `SELECT s.id, s.problem_id, s.contest_id, p.title, s.verdict, s.submitted_at
        FROM submissions s
-       JOIN problems p ON p.id = s.problem_id
+       JOIN problems p ON p.id = s.problem_id AND p.contest_id = s.contest_id AND p.contest_id = $2
        WHERE s.team_id = $1
        ORDER BY s.submitted_at DESC`,
-      [teamId]
+      [teamId, contestId]
     );
 
     res.json(rows);
@@ -54,16 +49,16 @@ exports.getMySubmissions = async (req, res) => {
   }
 };
 
-// ✅ Get one submission by ID (only if owned by current team)
+// Get one submission by ID (only if owned by current team)
 exports.getSubmissionById = async (req, res) => {
   const teamId = req.user.id;
   const submissionId = req.params.id;
 
   try {
     const { rows } = await db.query(
-      `SELECT s.id, s.problem_id, p.title, s.verdict, s.code, s.submitted_at, s.execution_time_ms
+      `SELECT s.id, s.problem_id, s.contest_id, p.title, s.verdict, s.code, s.submitted_at, s.execution_time_ms
        FROM submissions s
-       JOIN problems p ON s.problem_id = p.id
+       JOIN problems p ON s.problem_id = p.id AND s.contest_id = p.contest_id
        WHERE s.id = $1 AND s.team_id = $2`,
       [submissionId, teamId]
     );
@@ -79,16 +74,17 @@ exports.getSubmissionById = async (req, res) => {
   }
 };
 
-// ✅ Get count of solved problems (Accepted verdict)
+// Get count of solved problems (Accepted verdict) counting distinct contest-problem pairs
 exports.getSolvedCount = async (req, res) => {
   const teamId = req.user.id;
+  const contestId = req.query.contest_id; 
 
   try {
     const { rows } = await db.query(
-      `SELECT COUNT(DISTINCT problem_id) AS solved_count
+      `COUNT(DISTINCT (contest_id, problem_id)) AS solved_count
        FROM submissions
-       WHERE team_id = $1 AND verdict = 'Accepted'`,
-      [teamId]
+       WHERE team_id = $1 AND contest_id = $2 AND verdict = 'Accepted'`,
+      [teamId, contestId]
     );
 
     res.json({ solvedCount: rows[0].solved_count });
