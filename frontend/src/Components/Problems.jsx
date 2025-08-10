@@ -32,7 +32,10 @@ const Problems = () => {
     });
 
     axios.get('http://localhost:5000/api/submissions/solved-count', {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
+      params: {
+        contest_id: contestId
+      }
     })
     .then(res => setSolvedProblems(res.data.solvedCount))
     .catch(err => console.error("Solved count API error:", err));
