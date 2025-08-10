@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../style/FetchSubmissions.css';
+import { CONTEST_ID } from "../config/config";
 
 export const FetchAllYourSubmissions = () => {
   const [row, setRow] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); 
+  const contestId = CONTEST_ID;
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -16,6 +18,9 @@ export const FetchAllYourSubmissions = () => {
         const response = await axios.get('http://localhost:5000/api/submissions/mine', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params:{
+            contest_id : contestId
           }
         });
         setRow(response.data);

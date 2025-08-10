@@ -41,7 +41,6 @@ async function insertTeamsAndSaveToFile() {
     const password = generatePassword();
 
     try {
-      // Call your controller API instead of DB directly
       await axios.post(`${baseURL}/auth/register`, {
         name: name.trim(),
         institution: institution || null,

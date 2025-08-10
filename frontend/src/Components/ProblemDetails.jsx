@@ -77,6 +77,7 @@ const ProblemDetails = () => {
             problem_id: id,
             language_id: languageId,
             code,
+            contest_id: contestId
             },
             {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
