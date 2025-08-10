@@ -4,6 +4,7 @@ import axios from "axios";
 import { ContestContext } from "../context/ContextCreation";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { CONTEST_ID } from "../config/config";
 
 const Problems = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Problems = () => {
   const { timeLeft } = useContext(ContestContext);
   const problemsPerPage = 6;
   const [solvedProblems, setSolvedProblems] = useState(0);
+  const contestId = CONTEST_ID;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -20,7 +22,7 @@ const Problems = () => {
       return;
     }
 
-    axios.get('http://localhost:5000/api/problems', {
+    axios.get(`http://localhost:5000/api/problems/${contestId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setProblems(res.data))

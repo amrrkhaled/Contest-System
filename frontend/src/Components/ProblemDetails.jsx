@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Typography, Paper, Button, TextField, Select, MenuItem } from "@mui/material";
 import axios from "axios";
+import { CONTEST_ID } from "../config/config";
 
 const ProblemDetails = () => {
     const { id } = useParams();
@@ -16,6 +17,7 @@ const ProblemDetails = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const contestId = CONTEST_ID;
 
     //problem details
     useEffect(() => {
@@ -25,7 +27,7 @@ const ProblemDetails = () => {
         return;
         }
 
-        axios.get(`http://localhost:5000/api/problems/${id}`, {
+        axios.get(`http://localhost:5000/api/problems/${contestId}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => setProblem(res.data))

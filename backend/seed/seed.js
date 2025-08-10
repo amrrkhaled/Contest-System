@@ -1,20 +1,32 @@
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({ path: '../.env' });
 const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
-console.log(process.env.DATABASE_URL);
+console.log('🌱 Seeding DB at:', process.env.DATABASE_URL);
 
 async function seed() {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
 
+    console.log('🧹 Cleaning database...');
+
+    // Delete in reverse dependency order
+    await client.query('DELETE FROM submissions');
+    await client.query('DELETE FROM test_cases');
+    await client.query('DELETE FROM problems');
+    await client.query('DELETE FROM teams');
+    await client.query('DELETE FROM languages');
+    await client.query('DELETE FROM contests');
+
+    console.log('✅ Cleaned.');
+
     // 1. Insert Contest
     const contestRes = await client.query(
       `INSERT INTO contests (name, start_time, end_time, is_active)
-      VALUES ($1, $2, $3, $4) RETURNING id`,
+       VALUES ($1, $2, $3, $4) RETURNING id`,
       [
         'Alexstream Practice Contest',
         '2025-08-01 10:00:00',
@@ -23,6 +35,7 @@ async function seed() {
       ]
     );
     const contestId = contestRes.rows[0].id;
+    console.log(`🏁 Inserted contest with ID: ${contestId}`);
 
     // 2. Insert Problems and Test Cases
     const problems = [
@@ -77,11 +90,7 @@ async function seed() {
           input_description, output_description,
           sample_input, sample_output,
           time_limit_ms, memory_limit_mb
-        ) VALUES (
-          $1, $2, $3, $4,
-          $5, $6, $7, $8,
-          $9, $10
-        )`,
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
         [
           prob.id,
           contestId,
@@ -98,26 +107,26 @@ async function seed() {
 
       for (const test of prob.test_cases) {
         await client.query(
-          `INSERT INTO test_cases (problem_id, input, expected_output, is_sample)
-           VALUES ($1, $2, $3, $4)`,
-          [prob.id, test.input, test.output, test.is_sample]
+          `INSERT INTO test_cases (
+            contest_id, problem_id, input, expected_output, is_sample
+          ) VALUES ($1, $2, $3, $4, $5)`,
+          [contestId, prob.id, test.input, test.output, test.is_sample]
         );
       }
     }
 
     // 3. Insert Languages
     await client.query(`
-      INSERT INTO languages (name, extension) VALUES
-      ('C++', 'cpp'),
-      ('Python', 'py'),
-      ('Java', 'java')
+      INSERT INTO languages (id, name, extension) VALUES
+      (1, 'C++', 'cpp'),
+      (2, 'Python', 'py'),
+      (3, 'Java', 'java')
     `);
-
     await client.query('COMMIT');
-    console.log('✅ Seeded contests, problems, test cases, and languages.');
+    console.log('✅ Seed complete.');
   } catch (err) {
     await client.query('ROLLBACK');
-    console.error('❌ Seeding error:', err);
+    console.error('❌ Seeding error:', err.message);
   } finally {
     client.release();
     pool.end();
