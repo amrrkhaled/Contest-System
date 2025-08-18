@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Typography, Paper, Button, TextField, Select, MenuItem } from "@mui/material";
+import { ContentCopy } from "@mui/icons-material";
 import axios from "axios";
 import { CONTEST_ID } from "../config/config";
 
@@ -17,6 +18,7 @@ const ProblemDetails = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [testCases, setTestCases] = useState([]);
     const contestId = CONTEST_ID;
 
     //problem details
@@ -30,7 +32,10 @@ const ProblemDetails = () => {
         axios.get(`http://localhost:5000/api/problems/${contestId}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
         })
-        .then(res => setProblem(res.data))
+        .then(res => {
+            console.log("Problem fetched:", res.data);
+            setProblem(res.data);
+        })
         .catch(err => {
             console.error("Problem fetch failed:", err);
             if (err.response?.status === 401) {
@@ -50,6 +55,24 @@ const ProblemDetails = () => {
             setError("Failed to fetch languages.");
         });
     }, []);
+
+    //test cases
+    useEffect(() => {
+        try {
+            axios.get(`http://localhost:5000/api/problems/${contestId}/${id}/test-cases`)
+            .then(res => {
+                setTestCases(res.data);
+                console.log("Test cases fetched:", res.data);
+            })
+            .catch(err => {
+                console.error("Error fetching test cases:", err);
+                setError("Failed to fetch test cases.");
+            });
+        } catch (error) {
+            console.error("Error in fetching test cases:", error);
+            setError("Failed to fetch test cases.");
+        }
+    }, [contestId, id]);
 
     //files
     const handleFileUpload = (e) => {
@@ -122,14 +145,51 @@ const ProblemDetails = () => {
             <Typography variant="body2" paragraph>{problem.output_description}</Typography>
 
             <Typography variant="h6" style={{ color: "#141E61" }}>Sample Input</Typography>
-            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem" }}>
+            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem", position: "relative" }}>
             <pre>{problem.sample_input}</pre>
+            <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(problem.sample_input)}>
+                <ContentCopy fontSize="small" />
+            </Button>
             </Paper>
 
             <Typography variant="h6" style={{ color: "#141E61" }}>Sample Output</Typography>
-            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem" }}>
+            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem", position: "relative" }}>
             <pre>{problem.sample_output}</pre>
+            <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(problem.sample_output)}>
+                <ContentCopy fontSize="small" />
+            </Button>
             </Paper>
+
+            {/* Test cases */}
+            <Typography variant="h6" style={{ color: "#141E61", marginTop: "2rem", marginBottom: "1rem" }}>Test Cases</Typography>
+            
+
+            {testCases.length > 0 ? (
+            <div>
+                {testCases.filter(test => test.is_sample).map((test, index) => (
+                <div key={index} style={{ marginBottom: "1.5rem" }}>
+                    <Typography variant="subtitle1" style={{ color: "#141E61" }}>Sample Input {index + 1}</Typography>
+                    <Paper style={{backgroundColor: "#f5f5f5",padding: "0.5rem",marginBottom: "1rem",borderRadius: "10px", position: "relative"}}><pre>{test.input}</pre>
+                    <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(test.input)}>
+                        <ContentCopy fontSize="small" />
+                    </Button>
+                    </Paper>
+
+                    <Typography variant="subtitle1" style={{ color: "#141E61" }}>Sample Output {index + 1}</Typography>
+                    <Paper style={{backgroundColor: "#f5f5f5",padding: "0.5rem",borderRadius: "10px", position: "relative"}}><pre>{test.expected_output}</pre>
+                    <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(test.expected_output)}>
+                        <ContentCopy fontSize="small" />
+                    </Button>
+                    </Paper>
+                </div>
+                ))}
+            </div>
+            ) : (
+            <Typography variant="body2" style={{ marginTop: "1rem", color: "#787A91" }}>
+                No test cases available.
+            </Typography>
+            )}
+
         </Paper>
 
         {/* Submission form */}

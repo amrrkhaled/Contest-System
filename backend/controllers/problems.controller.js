@@ -28,3 +28,18 @@ exports.getAllProblemsForContest = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getAllTestCasesForProblem = async (req, res) => {
+  const {contestId , id} = req.params;
+
+  try {
+    const result = await db.query(
+      'SELECT * FROM test_cases WHERE contest_id = $1 AND problem_id = $2',
+      [contestId, id]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    
+  }
+}
