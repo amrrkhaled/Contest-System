@@ -33,16 +33,15 @@ const Problems = () => {
 
     axios.get('http://localhost:5000/api/submissions/solved-count', {
       headers: { Authorization: `Bearer ${token}` },
-      params: {
-        contest_id: contestId
-      }
+      params: { contest_id: contestId }
     })
-    .then(res => setSolvedProblems(res.data.solvedCount))
-    .catch(err => console.error("Solved count API error:", err));
-
+    .then(res => {
+      setSolvedProblems(res.data.solved_count);
+    })
+    .catch(err => console.error("Error fetching solved problems:", err));
   }, [navigate]);
 
-  const handleChange = (event, value) => setPage(value);
+  const handleChange = (_, value) => setPage(value);
 
   const formatTime = (seconds) => {
     const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
@@ -99,7 +98,7 @@ const Problems = () => {
           <Typography variant="body1" style={{ color: "#141E61" }}>Time Remaining:</Typography>
           <Typography variant="h5" style={{ color: "#FF0000", fontWeight: "bold" }}>{formatTime(timeLeft)}</Typography>
           <Typography variant="body1" style={{ marginTop: "1.5rem", color: "#141E61" }}>Solved Problems:</Typography>
-          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems} / {problems.length}</Typography>
+          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems}/ {problems.length}</Typography>
         </Paper>
       </div>
       </div>
