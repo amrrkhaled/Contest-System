@@ -76,20 +76,20 @@ exports.getSubmissionById = async (req, res) => {
 
 // Get count of solved problems (Accepted verdict) counting distinct contest-problem pairs
 exports.getSolvedCount = async (req, res) => {
+  const contestId = req.query.contest_id;
   const teamId = req.user.id;
-  const contestId = req.query.contest_id; 
 
   try {
-    const { rows } = await db.query(
-      `COUNT(DISTINCT (contest_id, problem_id)) AS solved_count
-       FROM submissions
-       WHERE team_id = $1 AND contest_id = $2 AND verdict = 'Accepted'`,
-      [teamId, contestId]
+    const result = await db.query(
+      `SELECT COUNT(DISTINCT problem_id) AS solved_count 
+       FROM submissions 
+       WHERE verdict = $1 AND contest_id = $2 AND team_id = $3`,
+      ['Accepted', contestId, teamId]
     );
 
-    res.json({ solvedCount: rows[0].solved_count });
-  } catch (err) {
-    console.error('Error fetching solved problems count:', err);
-    res.status(500).json({ error: 'Could not fetch solved count' });
+    res.json({ solved_count: result.rows[0].solved_count });
+  } catch (error) {
+    console.error("Error fetching solved problems count:", error);
+    res.status(500).json({ error: error.message });
   }
 };
