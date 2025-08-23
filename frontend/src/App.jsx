@@ -18,7 +18,7 @@ console.log("Contest ID from env:", CONTEST_ID);
 
 function App() {
   return (
-    <ContestProvider>
+    <ContestProvider contestId={CONTEST_ID}>
       <AuthProvider>
         <Router>
           <Navbar />
