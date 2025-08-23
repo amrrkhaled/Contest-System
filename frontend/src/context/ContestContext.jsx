@@ -4,19 +4,32 @@ import axios from "axios";
 
 export const ContestProvider = ({ children, contestId }) => {
   const [timeLeft, setTimeLeft] = useState(null);
+  const [status, setStatus] = useState(); 
 
   // Fetch contest start/end time
   useEffect(() => {
     const fetchContestTime = async () => {
       try {
-        const response = await axios.get(`/api/contests/${contestId}`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/api/contests/${contestId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const { start_time, end_time } = response.data;
-
-        const now = new Date().getTime();
+        const now = Date.now();
+        const start = new Date(start_time).getTime();
         const end = new Date(end_time).getTime();
-        const remainingSeconds = Math.max(0, Math.floor((end - now) / 1000));
 
-        setTimeLeft(remainingSeconds);
+        if (now < start) {
+          setStatus("upcoming");
+          setTimeLeft(Math.floor((start - now) / 1000));
+        } else if (now > end){
+            setStatus("ended");
+            setTimeLeft(0);
+        } else {
+            setStatus("running");
+            setTimeLeft(Math.floor((end - now) / 1000));
+        }
+
       } catch (err) {
         console.error("Failed to fetch contest times", err);
       }
@@ -41,7 +54,7 @@ export const ContestProvider = ({ children, contestId }) => {
   }, [timeLeft]);
 
   return (
-    <ContestContext.Provider value={{ timeLeft }}>
+    <ContestContext.Provider value={{ timeLeft, status }}>
       {children}
     </ContestContext.Provider>
   );
