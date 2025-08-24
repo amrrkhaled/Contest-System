@@ -23,7 +23,7 @@ exports.submit = async (req, res) => {
 
     res.status(201).json({ message: 'Submission received', submissionId });
   } catch (err) {
-    console.error(err);
+    console.error('Error inserting submission:', err.message);
     res.status(500).json({ error: 'Submission failed' });
   }
 };
@@ -31,12 +31,16 @@ exports.submit = async (req, res) => {
 // Get all submissions of the current team
 exports.getMySubmissions = async (req, res) => {
   const teamId = req.user.id;
-  const contestId = req.query.contest_id; 
+  const contestId = req.query.contest_id;
+
   try {
     const { rows } = await db.query(
       `SELECT s.id, s.problem_id, s.contest_id, p.title, s.verdict, s.submitted_at
        FROM submissions s
-       JOIN problems p ON p.id = s.problem_id AND p.contest_id = s.contest_id AND p.contest_id = $2
+       JOIN problems p 
+         ON p.id = s.problem_id 
+        AND p.contest_id = s.contest_id 
+        AND p.contest_id = $2
        WHERE s.team_id = $1
        ORDER BY s.submitted_at DESC`,
       [teamId, contestId]
@@ -44,7 +48,7 @@ exports.getMySubmissions = async (req, res) => {
 
     res.json(rows);
   } catch (err) {
-    console.error('Error fetching submissions:', err);
+    console.error('Error fetching submissions:', err.message);
     res.status(500).json({ error: 'Failed to fetch submissions' });
   }
 };
@@ -56,7 +60,8 @@ exports.getSubmissionById = async (req, res) => {
 
   try {
     const { rows } = await db.query(
-      `SELECT s.id, s.problem_id, s.contest_id, p.title, s.verdict, s.code, s.submitted_at, s.execution_time_ms
+      `SELECT s.id, s.problem_id, s.contest_id, p.title, 
+              s.verdict, s.code, s.submitted_at, s.execution_time_ms
        FROM submissions s
        JOIN problems p ON s.problem_id = p.id AND s.contest_id = p.contest_id
        WHERE s.id = $1 AND s.team_id = $2`,
@@ -69,7 +74,7 @@ exports.getSubmissionById = async (req, res) => {
 
     res.json(rows[0]);
   } catch (err) {
-    console.error('Error fetching submission:', err);
+    console.error('Error fetching submission:', err.message);
     res.status(500).json({ error: 'Could not fetch submission' });
   }
 };
@@ -77,19 +82,20 @@ exports.getSubmissionById = async (req, res) => {
 // Get count of solved problems (Accepted verdict) counting distinct contest-problem pairs
 exports.getSolvedCount = async (req, res) => {
   const teamId = req.user.id;
-  const contestId = req.query.contest_id; 
+  const contestId = req.query.contest_id;
 
   try {
     const { rows } = await db.query(
-      `COUNT(DISTINCT (contest_id, problem_id)) AS solved_count
+      `SELECT COUNT(DISTINCT (contest_id, problem_id)) AS solved_count
        FROM submissions
        WHERE team_id = $1 AND contest_id = $2 AND verdict = 'Accepted'`,
       [teamId, contestId]
     );
 
-    res.json({ solvedCount: rows[0].solved_count });
+    // If no solved problems, return 0 safely
+    res.json({ solvedCount: rows[0]?.solved_count || 0 });
   } catch (err) {
-    console.error('Error fetching solved problems count:', err);
+    console.error('Error fetching solved problems count:', err.message);
     res.status(500).json({ error: 'Could not fetch solved count' });
   }
 };

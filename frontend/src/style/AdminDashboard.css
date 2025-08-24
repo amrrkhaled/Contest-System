@@ -1,0 +1,72 @@
+:root {
+  --color-dark-blue: #0f044c;
+  --color-mid-blue: #141e61;
+  --color-gray-blue: #787a91;
+  --color-light: #eeeeee;
+  --color-accent: #4682a9;
+  --color-background: #eeeeee;
+  --color-error: #ff4d4f;
+}
+
+.admin-dashboard {
+  min-height: 100vh;
+  background: var(--color-background);
+  font-family: "Product Sans", sans-serif;
+  padding: 2rem;
+  color: var(--color-dark-blue);
+}
+
+/* ---------- Header ---------- */
+.admin-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.admin-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.admin-header p {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--color-gray-blue);
+}
+
+/* ---------- Layout ---------- */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.admin-section {
+  background: var(--color-light);
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px rgba(70, 130, 169, 0.25);
+}
+
+.section-title {
+  margin-bottom: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* ---------- Leaderboard ---------- */
+.leaderboard-section {
+  margin-top: 2rem;
+  padding: 2rem;
+}
