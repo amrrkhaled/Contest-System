@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ListAltIcon from "@mui/icons-material/ListAlt"; // Problems
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn"; // Submissions
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"; // Leaderboard
+import LogoutIcon from "@mui/icons-material/Logout"; // Logout
 import "../style/Navbar.css";
 import logo from "../logo.png";
 import alextremeLogo from "../AleXtreme .png";
@@ -28,7 +29,11 @@ const Navbar = () => {
         </div>
 
         <div className="nav-title">
-          <img src={alextremeLogo} alt="ALexTreme Logo" className="title-image" />
+          <img
+            src={alextremeLogo}
+            alt="ALexTreme Logo"
+            className="title-image"
+          />
         </div>
 
         <div className="nav-links">
@@ -40,8 +45,15 @@ const Navbar = () => {
               <Link to="/submissions" className="nav-link" title="Submissions">
                 <AssignmentTurnedInIcon className="nav-icon" />
               </Link>
-              <Link to={`/leaderboard/${CONTEST_ID}`} className="nav-link" title="Leaderboard">
+              <Link
+                to={`/leaderboard/${CONTEST_ID}`}
+                className="nav-link"
+                title="Leaderboard"
+              >
                 <EmojiEventsIcon className="nav-icon" />
+              </Link>
+              <Link to="/logout" className="nav-link" title="Logout">
+                <LogoutIcon className="nav-icon" />
               </Link>
             </>
           ) : (
