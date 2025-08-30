@@ -5,4 +5,10 @@ const leaderboardController = require('../controllers/leaderboard.controller');
 // GET /api/leaderboard/:contestId
 router.get('/:contestId', leaderboardController.getLeaderboard);
 
+// GET /api/leaderboard/admin/:contestId
+router.get('/admin/:contestId', leaderboardController.adminLeaderboard);
+
+// GET /api/leaderboard/admin/:contestId/:teamId
+router.get('/admin/:contestId/:teamId', leaderboardController.adminLeaderboardTeamByID);
+
 module.exports = router;
