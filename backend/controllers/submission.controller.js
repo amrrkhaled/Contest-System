@@ -81,8 +81,8 @@ exports.getSubmissionById = async (req, res) => {
 
 // Get count of solved problems (Accepted verdict) counting distinct contest-problem pairs
 exports.getSolvedCount = async (req, res) => {
-  const teamId = req.user.id;
   const contestId = req.query.contest_id;
+  const teamId = req.user.id;
 
   try {
     const { rows } = await db.query(

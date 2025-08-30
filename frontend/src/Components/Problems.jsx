@@ -10,10 +10,11 @@ const Problems = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [problems, setProblems] = useState([]);
-  const { timeLeft } = useContext(ContestContext);
   const problemsPerPage = 6;
   const [solvedProblems, setSolvedProblems] = useState(0);
   const contestId = CONTEST_ID;
+  const { timeLeft, status } = useContext(ContestContext);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,28 +22,28 @@ const Problems = () => {
       navigate('/login');
       return;
     }
+    if (status == "running") {
+      axios.get(`http://localhost:5000/api/problems/${contestId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => setProblems(res.data))
+      .catch(err => {
+        console.error("API error:", err);
+        if (err.response?.status === 401) navigate('/login');
+      });
 
-    axios.get(`http://localhost:5000/api/problems/${contestId}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => setProblems(res.data))
-    .catch(err => {
-      console.error("API error:", err);
-      if (err.response?.status === 401) navigate('/login');
-    });
+      axios.get('http://localhost:5000/api/submissions/solved-count', {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { contest_id: contestId }
+      })
+      .then(res => {
+        setSolvedProblems(res.data.solved_count);
+      })
+      .catch(err => console.error("Error fetching solved problems:", err));
+    }
+  }, [status, contestId, navigate]);
 
-    axios.get('http://localhost:5000/api/submissions/solved-count', {
-      headers: { Authorization: `Bearer ${token}` },
-      params: {
-        contest_id: contestId
-      }
-    })
-    .then(res => setSolvedProblems(res.data.solvedCount))
-    .catch(err => console.error("Solved count API error:", err));
-
-  }, [navigate]);
-
-  const handleChange = (event, value) => setPage(value);
+  const handleChange = (_, value) => setPage(value);
 
   const formatTime = (seconds) => {
     const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
@@ -96,10 +97,19 @@ const Problems = () => {
       <div style={{ flex: 1 }}>
         <Paper style={{ padding: "1rem", backgroundColor: "#FFFFFF", borderRadius: "10px" }}>
           <Typography variant="h6" style={{ color: "#0F044C", marginBottom: "1rem" }}>Contest Info</Typography>
-          <Typography variant="body1" style={{ color: "#141E61" }}>Time Remaining:</Typography>
-          <Typography variant="h5" style={{ color: "#FF0000", fontWeight: "bold" }}>{formatTime(timeLeft)}</Typography>
+          <Typography variant="body1" style={{ color: "#141E61" }}>
+            {status === "upcoming" && "Contest starts in:"}
+            {status === "running" && "Time Remaining:"}
+            {status === "ended" && "Contest has ended"}
+          </Typography>
+
+          {status !== "ended" && (
+            <Typography variant="h5" style={{ color: "#FF0000", fontWeight: "bold" }}>
+              {formatTime(timeLeft)}
+            </Typography>
+          )}
           <Typography variant="body1" style={{ marginTop: "1.5rem", color: "#141E61" }}>Solved Problems:</Typography>
-          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems} / {problems.length}</Typography>
+          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems}/ {problems.length}</Typography>
         </Paper>
       </div>
       </div>

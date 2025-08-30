@@ -40,18 +40,21 @@ async function runTest() {
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
       language_id: 1,
+      contest_id: 1,
       code: codeAC
     }, { headers: { Authorization: `Bearer ${tokens[0]}` } }),
 
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
       language_id: 2,
+      contest_id: 1,
       code: codeWA
     }, { headers: { Authorization: `Bearer ${tokens[1]}` } }),
 
     axios.post(`${baseURL}/submissions`, {
       problem_id: 'A',
       language_id: 3,
+      contest_id: 1,
       code: codeTLE
     }, { headers: { Authorization: `Bearer ${tokens[2]}` } }),
   ]);

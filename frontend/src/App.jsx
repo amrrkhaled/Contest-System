@@ -11,6 +11,7 @@ import { ShowSubmissionById } from "./Components/ShowSubmissionById";
 import Problems from "./Components/Problems";
 import ProblemDetails from "./Components/ProblemDetails";
 import { ContestProvider } from "./context/ContestContext";
+import Logout from "./Auth/Logout";
 import "./App.css";
 import { AuthProvider } from "./context/AuthProvider";
 import { CONTEST_ID } from "./config/config";
@@ -27,7 +28,7 @@ console.log("Contest ID from env:", CONTEST_ID);
 
 function App() {
   return (
-    <ContestProvider>
+    <ContestProvider contestId={CONTEST_ID}>
       <AuthProvider>
         <Router>
           <Navbar />
@@ -40,6 +41,7 @@ function App() {
             <Route path="/submissions/" element={<FetchAllYourSubmissions />} />
             <Route path="/submissions/:id" element={<ShowSubmissionById />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
 
             {/* Admin Auth */}
