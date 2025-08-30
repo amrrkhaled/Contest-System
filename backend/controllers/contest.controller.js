@@ -1,6 +1,5 @@
 const db = require('../config/db');
 
-
 exports.getContestById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -10,6 +9,24 @@ exports.getContestById = async (req, res) => {
     }
     res.json(result.rows[0]);
   } catch (error) {
+    console.error('Error fetching contest:', error.message);
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.createContest = async (req, res) => {
+  const { name, start_time, end_time, is_active } = req.body;
+  if (!name || !start_time || !end_time) {
+    return res.status(400).json({ message: 'Name, start time, and end time are required' });
+  }
+  try {
+    const result = await db.query(
+      'INSERT INTO contests (name, start_time, end_time, is_active) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, start_time, end_time, is_active || false]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating contest:', error.message);
+    res.status(500).json({ error: 'Failed to create contest' });
   }
 };
