@@ -144,22 +144,7 @@ const ProblemDetails = () => {
             <Typography variant="h6" style={{ color: "#141E61" }}>Output</Typography>
             <Typography variant="body2" paragraph>{problem.output_description}</Typography>
 
-            <Typography variant="h6" style={{ color: "#141E61" }}>Sample Input</Typography>
-            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem", position: "relative" }}>
-            <pre>{problem.sample_input}</pre>
-            <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(problem.sample_input)}>
-                <ContentCopy fontSize="small" />
-            </Button>
-            </Paper>
-
-            <Typography variant="h6" style={{ color: "#141E61" }}>Sample Output</Typography>
-            <Paper style={{ backgroundColor: "#f5f5f5", padding: "0.5rem", marginBottom: "1rem", position: "relative" }}>
-            <pre>{problem.sample_output}</pre>
-            <Button size="small" style={{ position: "absolute", top: 5, right: 5 }} onClick={() => navigator.clipboard.writeText(problem.sample_output)}>
-                <ContentCopy fontSize="small" />
-            </Button>
-            </Paper>
-
+           
             {/* Test cases */}
             <Typography variant="h6" style={{ color: "#141E61", marginTop: "2rem", marginBottom: "1rem" }}>Test Cases</Typography>
             
