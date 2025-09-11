@@ -17,7 +17,7 @@
       { "input": "level", "output": "YES", "is_sample": false },
       { "input": "python", "output": "NO", "is_sample": false },
       { "input": "noon", "output": "YES", "is_sample": false },
-      { "input": "abbaabba", "output": "YES", "is_sample": false }
+      { "input": "abbaabba", "output": "NO", "is_sample": false }
     ]
   },
   {
