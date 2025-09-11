@@ -8,7 +8,7 @@
 }
 
 .submit-problem-container {
-  background: var(--light);
+  background: #787A91;
   color: var(--dark-blue);
   padding: 2rem;
   max-width: 650px;

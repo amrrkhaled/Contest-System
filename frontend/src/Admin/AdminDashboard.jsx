@@ -4,6 +4,7 @@ import { DropProblemsFile } from "./DropProblemsFile";
 import { AdminLeaderboard } from "./AdminLeaderboard";
 import { GenerateTeams } from "./GenerateTeams";
 import "../style/AdminDashboard.css";
+import {AdminShowAllSubmission} from "./AdminShowAllSubmission";
 
 export const AdminDashboard = () => {
   return (
@@ -32,6 +33,11 @@ export const AdminDashboard = () => {
       <div className="admin-section leaderboard-section">
         <h2 className="section-title">🏆 Contest Leaderboard</h2>
         <AdminLeaderboard />
+      </div>
+
+      <div className="admin-section leaderboard-section">
+        <h2 className="section-title">📄 All Submissions</h2>
+        <AdminShowAllSubmission />
       </div>
       
     {/* Right column */}

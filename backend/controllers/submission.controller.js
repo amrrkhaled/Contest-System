@@ -99,3 +99,48 @@ exports.getSolvedCount = async (req, res) => {
     res.status(500).json({ error: 'Could not fetch solved count' });
   }
 };
+
+//get all submissions of all teams
+exports.getAllSubmissions = async (req, res) => {
+  const contestId = req.query.contest_id;
+
+  try {
+    const { rows } = await db.query(
+      `SELECT s.id, s.problem_id, s.contest_id, p.title, 
+              s.verdict, s.code, s.submitted_at, s.execution_time_ms
+       FROM submissions s
+       JOIN problems p ON s.problem_id = p.id AND s.contest_id = p.contest_id
+       WHERE s.contest_id = $1`,
+      [contestId]
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching all submissions:', error.message);
+    res.status(500).json({ error: 'Could not fetch submissions' });
+  }
+}
+
+//get submission by id
+exports.getSubmissionByIdPublic = async (req, res) => {
+  const submissionId = req.params.id;
+
+  try {
+    const { rows } = await db.query(
+      `SELECT s.id, s.problem_id, s.contest_id, p.title, 
+              s.verdict, s.code, s.submitted_at, s.execution_time_ms
+       FROM submissions s
+       JOIN problems p ON s.problem_id = p.id AND s.contest_id = p.contest_id
+       WHERE s.id = $1`,
+      [submissionId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Submission not found' });
+    }
+
+    res.json(rows[0]);
+  } catch (err) {
+    console.error('Error fetching submission:', err.message);
+    res.status(500).json({ error: 'Could not fetch submission' });
+  }
+}
