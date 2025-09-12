@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "../style/TeamByIDLeaderboard.css";
+import api from "../api";
 
 export const TeamByIDLeaderboard = () => {
   const [teamData, setTeamData] = useState({
@@ -21,10 +21,9 @@ export const TeamByIDLeaderboard = () => {
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/leaderboard/admin/${contestId}/${teamId}`
+        const response = await api.get(
+          `/leaderboard/admin/${contestId}/${teamId}`
         );
-        console.log("Frontend received:", response.data);
 
         setTeamData({
           ...response.data,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { CONTEST_ID } from "../config/config";
 import { useNavigate } from "react-router-dom";
 import '../style/adminShowAllSubmission.css';
+import api from "../api";
 
 export const AdminShowAllSubmission = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -21,8 +21,8 @@ export const AdminShowAllSubmission = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:5000/api/submissions?contest_id=${CONTEST_ID}`,
+        const response = await api.get(
+          `/submissions?contest_id=${CONTEST_ID}`,
           {
             withCredentials: true,
             headers: { Authorization: `Bearer ${token}` }

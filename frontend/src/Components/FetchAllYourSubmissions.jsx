@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../style/FetchSubmissions.css';
 import { CONTEST_ID } from "../config/config";
+import api from "../api";
 
 export const FetchAllYourSubmissions = () => {
   const [row, setRow] = useState([]);
@@ -15,7 +15,7 @@ export const FetchAllYourSubmissions = () => {
     const fetchSubmissions = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:5000/api/submissions/mine', {
+        const response = await api.get('/submissions/mine', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },

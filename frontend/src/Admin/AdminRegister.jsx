@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import "../style/Register.css"; // reuse the same styling
+import api from "../api";
 
 export const AdminRegister = () => {
   const [username, setUsername] = useState('');
@@ -16,15 +16,14 @@ export const AdminRegister = () => {
     setError('');
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/admin/register',
+      const response = await api.post(
+        '/auth/admin/register',
         { username, password, email, role },
         { withCredentials: true }
       );
 
       if (response.data.token) {
         localStorage.setItem('adminToken', response.data.token);
-        console.log('Admin registration successful');
         navigate('/admin/login');
       } else {
         setError('Registration failed');

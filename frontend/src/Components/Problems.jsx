@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import { ContestContext } from "../context/ContextCreation";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -23,7 +23,7 @@ const Problems = () => {
       return;
     }
     if (status == "running") {
-      axios.get(`http://localhost:5000/api/problems/${contestId}`, {
+      api.get(`/problems/${contestId}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => setProblems(res.data))
@@ -32,7 +32,7 @@ const Problems = () => {
         if (err.response?.status === 401) navigate('/login');
       });
 
-      axios.get('http://localhost:5000/api/submissions/solved-count', {
+      api.get('/submissions/solved-count', {
         headers: { Authorization: `Bearer ${token}` },
         params: { contest_id: contestId }
       })

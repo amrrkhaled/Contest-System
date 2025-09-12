@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../style/AddContest.css';
+import api from "../api";
 
 export const AddContest = () => {
   const [name, setName] = useState('');
@@ -18,10 +18,9 @@ export const AddContest = () => {
     setContestId(null);
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/contests/',
+      const response = await api.post(
+        '/contests/',
         { name, start_time, end_time, is_active },
-        { withCredentials: true }
       );
 
       if (response.status === 201) {

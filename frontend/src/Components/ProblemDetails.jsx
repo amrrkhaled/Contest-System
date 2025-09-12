@@ -2,7 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Typography, Paper, Button, TextField, Select, MenuItem } from "@mui/material";
 import { ContentCopy } from "@mui/icons-material";
-import axios from "axios";
+import 'katex/dist/katex.min.css'
+import api from "../api";
 import { CONTEST_ID } from "../config/config";
 
 const ProblemDetails = () => {
@@ -29,11 +30,10 @@ const ProblemDetails = () => {
         return;
         }
 
-        axios.get(`http://localhost:5000/api/problems/${contestId}/${id}`, {
+        api.get(`/problems/${contestId}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
-            console.log("Problem fetched:", res.data);
             setProblem(res.data);
         })
         .catch(err => {
@@ -48,7 +48,7 @@ const ProblemDetails = () => {
 
     //languages
     useEffect(() => {
-        axios.get("http://localhost:5000/api/languages")
+        api.get("/languages")
         .then(res => setLanguages(res.data))
         .catch(err => {
             console.error("Error fetching languages:", err);
@@ -59,10 +59,9 @@ const ProblemDetails = () => {
     //test cases
     useEffect(() => {
         try {
-            axios.get(`http://localhost:5000/api/problems/${contestId}/${id}/test-cases`)
+            api.get(`/problems/${contestId}/${id}/test-cases`)
             .then(res => {
                 setTestCases(res.data);
-                console.log("Test cases fetched:", res.data);
             })
             .catch(err => {
                 console.error("Error fetching test cases:", err);
@@ -94,8 +93,8 @@ const ProblemDetails = () => {
         setLoading(true);
 
         try {
-        const res = await axios.post(
-            "http://localhost:5000/api/submissions",
+        const res = await api.post(
+            "/submissions",
             {
             problem_id: id,
             language_id: languageId,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
 import { CONTEST_ID } from "../config/config";
 import '../style/Leaderboard.css';
+import api from "../api";
 
 export const AdminLeaderboard = () => {
   const contestId = CONTEST_ID;
@@ -11,9 +11,8 @@ export const AdminLeaderboard = () => {
 
   useEffect(() => {
     const fetchAdminLeaderboard = async () => {
-      console.log('Fetching admin leaderboard at', new Date().toLocaleTimeString());
       try {
-        const response = await axios.get(`http://localhost:5000/api/leaderboard/admin/${contestId}`);
+        const response = await api.get(`leaderboard/admin/${contestId}`);
         setLeaderboard(response.data);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);

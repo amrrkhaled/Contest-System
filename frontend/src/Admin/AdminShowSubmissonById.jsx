@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../style/adminShowAllSubmission.css';
+import api from "../api";
 
 export const AdminShowSubmissonById = () => {
   const { id } = useParams();
@@ -12,8 +12,8 @@ export const AdminShowSubmissonById = () => {
   useEffect(() => {
     const fetchSubmissionById = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/submissions/public/${id}`
+        const response = await api.get(
+          `/submissions/public/${id}`
         );
         setSubmission(response.data);
       } catch (error) {

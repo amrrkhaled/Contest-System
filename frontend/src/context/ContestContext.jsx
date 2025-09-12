@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ContestContext } from "./ContextCreation";
-import axios from "axios";
+import api from "../api";
 
 export const ContestProvider = ({ children, contestId }) => {
   const [timeLeft, setTimeLeft] = useState(null);
@@ -11,7 +11,7 @@ export const ContestProvider = ({ children, contestId }) => {
     const fetchContestTime = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:5000/api/contests/${contestId}`, {
+        const response = await api.get(`/contests/${contestId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const { start_time, end_time } = response.data;

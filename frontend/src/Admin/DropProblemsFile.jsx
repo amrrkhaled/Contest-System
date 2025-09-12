@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { CONTEST_ID } from "../config/config";
 import "../style/DropProblemsFile.css";
+import api from "../api";
 
 export const DropProblemsFile = () => {
   const [file, setFile] = useState(null);
@@ -30,12 +30,11 @@ export const DropProblemsFile = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/problems/admin/${contestId}`,
+      const response = await api.post(
+        `/problems/admin/${contestId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
         }
       );
 

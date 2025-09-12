@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+
 import "../style/GenerateTeams.css";
+import api from "../api";
 
 export const GenerateTeams = () => {
   const [teams, setTeams] = useState([]);
@@ -42,10 +43,9 @@ export const GenerateTeams = () => {
         const institution = teamInputs[i].institution || "Unknown";
         const password = Math.random().toString(36).slice(-8);
 
-        const response = await axios.post(
+        const response = await api.post(
           "http://localhost:5000/api/auth/register",
           { name: teamName, password, institution },
-          { withCredentials: true }
         );
 
         if (response.data.token) {

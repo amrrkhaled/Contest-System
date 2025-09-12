@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../style/Leaderboard.css'; 
 import { CONTEST_ID } from "../config/config";
+import api from "../api";
 
 export const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -10,9 +10,8 @@ export const Leaderboard = () => {
 
   useEffect(() => {
     const fetchLeaderBoard = async () => {
-      console.log('Fetching leaderboard data at', new Date().toLocaleTimeString());
       try {
-        const response = await axios.get(`http://localhost:5000/api/leaderboard/${contestId}`);
+        const response = await api.get(`/leaderboard/${contestId}`);
         setLeaderboard(response.data);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);

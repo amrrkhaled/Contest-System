@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useParams } from "react-router-dom";
 import '../style/ShowSubmissionById.css';
 
@@ -18,7 +18,7 @@ export const ShowSubmissionById = () => {
   useEffect(() => {
     const fetchSubmissionDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/submissions/${id}`, {
+        const response = await api.get(`/submissions/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

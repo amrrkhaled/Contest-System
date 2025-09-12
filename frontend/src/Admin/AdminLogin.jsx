@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../style/login.css';
-
+import api from "../api";
 export const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -13,15 +12,14 @@ export const AdminLogin = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/admin/login',
+      const response = await api.post(
+        '/auth/admin/login',
         { username, password },
         { withCredentials: true }
       );
 
       if (response.data.token) {
         localStorage.setItem('adminToken', response.data.token);
-        console.log('Admin login successful');
         navigate('/admin/dashboard'); // redirect to admin dashboard
       } else {
         setError('Login failed');

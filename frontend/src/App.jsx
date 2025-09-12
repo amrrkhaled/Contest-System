@@ -26,7 +26,6 @@ import { AdminProtectedRoute } from "./Admin/AdminProtectedRoute";
 import { AdminShowAllSubmission } from "./Admin/AdminShowAllSubmission";
 import { AdminShowSubmissonById } from "./Admin/AdminShowSubmissonById";
 
-console.log("Contest ID from env:", CONTEST_ID);
 
 function App() {
   return (

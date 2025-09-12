@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../style/login.css';
 import { AuthContext } from '../context/ContextCreation';
+import api from "../api";
 
 export const Login = () => {
   const [name, setName] = useState('');
@@ -16,16 +16,14 @@ export const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/login',
+      const response = await api.post(
+        '/auth/login',
         { name, password },
-        { withCredentials: true }
       );
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         login();
-        console.log('Login successful');
         navigate('/');
       } else {
         setError('Login failed');
