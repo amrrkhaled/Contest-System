@@ -4,6 +4,9 @@ import { Typography, Paper, Button, TextField, Select, MenuItem } from "@mui/mat
 import { ContentCopy } from "@mui/icons-material";
 import axios from "axios";
 import { CONTEST_ID } from "../config/config";
+import 'katex/dist/katex.min.css';
+import renderMathInElement from 'katex/contrib/auto-render';
+
 
 const ProblemDetails = () => {
     const { id } = useParams();
@@ -45,6 +48,18 @@ const ProblemDetails = () => {
             }
         });
     }, [id, navigate]);
+
+    // LaTeX
+    useEffect(() => {
+        if (problem) {
+            renderMathInElement(document.getElementById("problem-container"), {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
+                ]
+            });
+        }
+    }, [problem]);
 
     //languages
     useEffect(() => {
@@ -136,13 +151,15 @@ const ProblemDetails = () => {
             </Typography>
 
             <br />
-            <Typography variant="body1" paragraph>{problem.description}</Typography>
+            <div id="problem-container">
+                <Typography variant="body1" paragraph>{problem.description}</Typography>
 
-            <Typography variant="h6" style={{ color: "#141E61" }}>Input</Typography>
-            <Typography variant="body2" paragraph>{problem.input_description}</Typography>
+                <Typography variant="h6" style={{ color: "#141E61" }}>Input</Typography>
+                <Typography variant="body2" paragraph>{problem.input_description}</Typography>
 
-            <Typography variant="h6" style={{ color: "#141E61" }}>Output</Typography>
-            <Typography variant="body2" paragraph>{problem.output_description}</Typography>
+                <Typography variant="h6" style={{ color: "#141E61" }}>Output</Typography>
+                <Typography variant="body2" paragraph>{problem.output_description}</Typography>
+            </div>
 
            
             {/* Test cases */}
