@@ -10,7 +10,7 @@
 
 .admin-dashboard {
   min-height: 100vh;
-  background: var(--color-background);
+  background: #eeeeee;
   font-family: "Product Sans", sans-serif;
   padding: 2rem;
   color: var(--color-dark-blue);
