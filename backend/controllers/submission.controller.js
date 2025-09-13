@@ -107,10 +107,12 @@ exports.getAllSubmissions = async (req, res) => {
   try {
     const { rows } = await db.query(
       `SELECT s.id, s.problem_id, s.contest_id, p.title, 
-              s.verdict, s.code, s.submitted_at, s.execution_time_ms
+              s.verdict, s.code, s.submitted_at, s.execution_time_ms, t.name AS team_name
        FROM submissions s
        JOIN problems p ON s.problem_id = p.id AND s.contest_id = p.contest_id
-       WHERE s.contest_id = $1`,
+       JOIN teams t ON s.team_id = t.id
+       WHERE s.contest_id = $1
+       ORDER BY s.submitted_at DESC`,
       [contestId]
     );
     res.json(rows);

@@ -71,6 +71,9 @@ export const AdminShowAllSubmission = () => {
               >
                 <h3>#{submission.id} – {submission.problem_id}</h3>
                 <p className="card-title">{submission.title}</p>
+                <p className="card-team">
+                  Team: <strong>{submission.team_name}</strong>
+                </p>
                 <p
                   className={
                     submission.verdict === 'Accepted'

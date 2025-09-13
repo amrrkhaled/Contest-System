@@ -37,7 +37,7 @@ const Problems = () => {
         params: { contest_id: contestId }
       })
       .then(res => {
-        setSolvedProblems(res.data.solved_count);
+        setSolvedProblems(res.data.solvedCount);
       })
       .catch(err => console.error("Error fetching solved problems:", err));
     }
@@ -109,7 +109,7 @@ const Problems = () => {
             </Typography>
           )}
           <Typography variant="body1" style={{ marginTop: "1.5rem", color: "#141E61" }}>Solved Problems:</Typography>
-          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems}/ {problems.length}</Typography>
+          <Typography variant="h5" style={{ color: "#00A300", fontWeight: "bold" }}>{solvedProblems} / {problems.length}</Typography>
         </Paper>
       </div>
       </div>

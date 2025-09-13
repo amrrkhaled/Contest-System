@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { CONTEST_ID } from "../config/config";
-import "../style/DropProblemsFile.css";
+import React, { useState, useEffect } from "react";
+import 'katex/dist/katex.min.css';
+import renderMathInElement from 'katex/contrib/auto-render';
 import api from "../api";
 
 export const DropProblemsFile = () => {
@@ -56,6 +56,20 @@ export const DropProblemsFile = () => {
     }
   };
 
+  useEffect(() => {
+      problems.forEach((problem) => {
+        const el = document.getElementById(`uploaded-problem-${problem.id}`);
+        if (el) {
+          renderMathInElement(el, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+            ],
+          });
+        }
+      });
+    }, [problems]);
+
   return (
     <div className="drop-container">
       <div className="drop-card">
@@ -88,7 +102,13 @@ export const DropProblemsFile = () => {
               {problems.map((problem) => (
                 <li key={problem.id} className="problem-card">
                   <h5>{problem.title}</h5>
-                  <p>{problem.description}</p>
+                  <div id={`uploaded-problem-${problem.id}`} className="problem-description">
+                    <div style={{ whiteSpace: "pre-wrap" }}>{problem.description}</div>
+                    <h6>Input</h6>
+                    <div style={{ whiteSpace: "pre-wrap" }}>{problem.input_description}</div>
+                    <h6>Output</h6>
+                    <div style={{ whiteSpace: "pre-wrap" }}>{problem.output_description}</div>
+                  </div>
                   <small>Time Limit: {problem.time_limit_ms} ms</small>
                   <br />
                   <small>Memory Limit: {problem.memory_limit_mb} MB</small>
