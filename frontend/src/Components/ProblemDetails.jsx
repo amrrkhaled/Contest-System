@@ -152,15 +152,20 @@ const ProblemDetails = () => {
 
             <br />
             <div id="problem-container">
-                <Typography variant="body1" paragraph>{problem.description}</Typography>
+                <Typography variant="body1" paragraph style={{ whiteSpace: "pre-wrap",  fontSize: '1.2rem' }}>
+                    {problem.description}
+                </Typography>
 
-                <Typography variant="h6" style={{ color: "#141E61" }}>Input</Typography>
-                <Typography variant="body2" paragraph>{problem.input_description}</Typography>
-
-                <Typography variant="h6" style={{ color: "#141E61" }}>Output</Typography>
-                <Typography variant="body2" paragraph>{problem.output_description}</Typography>
+                <Typography variant="h5" style={{ color: "#141E61" }}>Input</Typography>
+                <Typography variant="body1" paragraph style={{ whiteSpace: "pre-wrap",  fontSize: '1.2rem' }}>
+                    {problem.input_description}
+                </Typography>
+                
+                <Typography variant="h5" style={{ color: "#141E61" }}>Output</Typography>
+                <Typography variant="body1" paragraph style={{ whiteSpace: "pre-wrap",  fontSize: '1.2rem' }}>
+                    {problem.output_description}
+                </Typography>
             </div>
-
            
             {/* Test cases */}
             <Typography variant="h6" style={{ color: "#141E61", marginTop: "2rem", marginBottom: "1rem" }}>Test Cases</Typography>
