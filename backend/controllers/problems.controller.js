@@ -20,7 +20,7 @@ exports.getAllProblemsForContest = async (req, res) => {
   const { contestId } = req.params;
   try {
     const result = await db.query(
-      'SELECT * FROM problems WHERE contest_id = $1',
+      'SELECT * FROM problems WHERE contest_id = $1 ORDER BY id;',
       [contestId]
     );
     res.json(result.rows);
