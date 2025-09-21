@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/contrib/auto-render';
+import { CONTEST_ID } from "../config/config";
 import api from "../api";
 
 export const DropProblemsFile = () => {

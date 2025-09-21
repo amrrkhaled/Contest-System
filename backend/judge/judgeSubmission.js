@@ -41,14 +41,23 @@ exports.judgeSubmission = async function judgeSubmission(submissionId) {
     let maxMemoryKb = 0;
 
     for (const test of testCases) {
+      // build payload
+      const payload = {
+        source_code: Buffer.from(sub.code).toString('base64'),
+        language_id: languageMap[sub.language_id],
+        stdin: Buffer.from(test.input || "").toString('base64'),
+        expected_output: Buffer.from(test.expected_output || "").toString('base64')
+      };
+
+      // add compiler options only for C++
+      if (languageMap[sub.language_id] === 54) {
+        payload.compiler_options = "-std=gnu++17";
+      }
+
+      // send to Judge0
       const response = await axios.post(
-        `${JUDGE0_URL}?base64_encoded=false&wait=true`,
-        {
-          source_code: sub.code,
-          language_id: languageMap[sub.language_id],
-          stdin: test.input,
-          expected_output: test.expected_output
-        },
+        `${JUDGE0_URL}?base64_encoded=true&wait=true`,
+        payload,
         { headers: JUDGE0_HEADERS }
       );
 
@@ -61,16 +70,26 @@ exports.judgeSubmission = async function judgeSubmission(submissionId) {
       maxTimeMs = Math.max(maxTimeMs, timeMs);
       maxMemoryKb = Math.max(maxMemoryKb, memoryKb);
 
+      if (!result.status || !result.status.description) {
+        console.error("⚠️ Unexpected Judge0 response:", result);
+        await db.query(
+          `UPDATE submissions SET verdict = 'Judge Error' WHERE id = $1`,
+          [submissionId]
+        );
+        return;
+      }
+
       if (result.status.description !== 'Accepted') {
         await db.query(
           `UPDATE submissions
-           SET verdict = $1, execution_time_ms = $2, memory_used_kb = $3
-           WHERE id = $4`,
+          SET verdict = $1, execution_time_ms = $2, memory_used_kb = $3
+          WHERE id = $4`,
           [result.status.description, timeMs, memoryKb, submissionId]
         );
         return;
       }
     }
+
 
     // All test cases passed
     await db.query(
@@ -83,6 +102,7 @@ exports.judgeSubmission = async function judgeSubmission(submissionId) {
     console.log(`✅ Submission ${submissionId} Accepted`);
 
   } catch (err) {
+    console.error("Judge0 Raw Error:", JSON.stringify(err.response?.data || err.message, null, 2));
     console.error('Judge API Error:', err.response?.data || err.message);
     await db.query(
       `UPDATE submissions SET verdict = 'Judge Error' WHERE id = $1`,
